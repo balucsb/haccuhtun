@@ -75,7 +75,7 @@ $routeDatabase = [
             'normal' => ['time'=>'20 mins','fare'=>'₱114','wait'=>'3 mins','status'=>'🟢 Fast'],
             'rush'   => ['time'=>'35 mins','fare'=>'₱160','wait'=>'8 mins','status'=>'🔴 Surge Pricing'],
             'stops'  => ['Mandaue','Colon'],
-            'photo'  => 'images/sample.jpg',
+            'photo'  => 'images/image7.jpg',
         ],
         [
             'id' => 'opt4', 'map_color' => '#d9534f',
@@ -85,7 +85,7 @@ $routeDatabase = [
             'normal' => ['time'=>'40 mins','fare'=>'₱16','wait'=>'10 mins','status'=>'🟢 Clear'],
             'rush'   => ['time'=>'80 mins','fare'=>'₱16','wait'=>'45+ mins','status'=>'🔴 Heavy'],
             'stops'  => ['Mandaue','Reclamation Rd','SM City','Colon'],
-            'photo'  => 'images/image7.jpg',
+            'photo'  => 'images/image11.jpg',
         ],
     ],
 
