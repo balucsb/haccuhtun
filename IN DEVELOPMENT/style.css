@@ -1,6 +1,6 @@
 /* style.css */
 * { box-sizing: border-box; font-family: Arial, sans-serif; }
-body { background: #0f0f0f; color: #fff; margin: 0 auto; padding: 20px; max-width: 480px; }
+body { background: #1a1a1a; color: #fff; margin: 0 auto; padding: 20px; max-width: 480px; }
 
 /* h1 { font-size: 22px; color: #f0ad4e; margin-bottom: 4px; } */
 /* --- ALTipid Logo Branding --- */
@@ -111,3 +111,52 @@ input[type=text] { width:100%; padding:13px; background:#2a2a2a; border:1px soli
 .s-xfer  { font-size:9px; color:#f0ad4e; background:#333; padding:1px 4px; border-radius:2px; margin-top:2px; white-space:nowrap; }
 
 p.hint { font-size:12px; color:#666; margin:6px 0 0; }
+
+/* --- Metrics Grid (Step 4 Dashboard) --- */
+.metrics-grid { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 16px; 
+}
+.metric-card { 
+    flex: 1; 
+    background: #2a2a2a; /* Darker navy background from your image */
+    border: 1px solid #2a2c36; 
+    border-radius: 12px; 
+    padding: 16px 4px; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+.metric-card.active-metric { 
+    border-color: #f0ad4e; /* The green highlight border */
+}
+.m-label { 
+    font-size: 10px; 
+    color: #fff; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+    margin-bottom: 12px; 
+
+}
+.m-value { 
+    font-size: 28px; 
+    font-weight: 900; 
+    color: #fff; 
+    margin-bottom: 6px; 
+    line-height: 1; 
+
+}
+.m-value.fare-text { 
+    color: #f0ad4e; /* Keeps the fare golden/yellow */
+}
+.m-value.small-val { 
+
+    letter-spacing: -0.5px; 
+}
+.m-sub { 
+    font-size: 11px; 
+    color: #666; 
+
+}
