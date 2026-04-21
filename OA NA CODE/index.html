@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Sugbo-Save</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #151820;
+  --surface2: #1c2030;
+  --border: #252a3a;
+  --text: #e8eaf0;
+  --muted: #6b7290;
+  --accent: #f5a623;
+  --accent2: #3d8ef8;
+  --green: #27c96f;
+  --red: #e84a5f;
+  --yellow: #f5c842;
+  --card-radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 0 0 40px;
+}
+
+.app {
+  width: 100%;
+  max-width: 460px;
+  padding: 0;
+  position: relative;
+}
+
+/* ── Header ── */
+.header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.logo span { color: var(--text); }
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+}
+
+.status-pill.rush { background: rgba(232,74,95,0.15); color: var(--red); border: 1px solid rgba(232,74,95,0.3); }
+.status-pill.normal { background: rgba(39,201,111,0.12); color: var(--green); border: 1px solid rgba(39,201,111,0.25); }
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+
+.weather-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.time-sim {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.time-sim select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ── Event Alert ── */
+.event-alert {
+  margin: 12px 20px 0;
+  padding: 10px 14px;
+  background: rgba(232,74,95,0.1);
+  border: 1px solid rgba(232,74,95,0.25);
+  border-radius: 10px;
+  font-size: 12px;
+  color: #f9a5b0;
+}
+
+/* ── Page Content ── */
+.page {
+  padding: 20px;
+  animation: fadeUp 0.25s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Steps 1 & 2 — Input ── */
+.step-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.step-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.input-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 15px 15px 15px 44px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type=text]:focus { border-color: var(--accent2); }
+input[type=text]::placeholder { color: var(--muted); }
+
+.chip-row {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-primary {
+  width: 100%;
+  padding: 15px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-ghost {
+  width: 100%;
+  padding: 13px;
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+/* ── Step 3 — Route Cards ── */
+.route-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.route-from-to {
+  flex: 1;
+}
+
+.route-from-to .from {
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.route-from-to .arrow-line {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: 'Syne', sans-serif;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.route-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--surface2);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Route Card */
+.route-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--card-radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+
+.route-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+}
+
+.route-card:active { transform: translateY(0); }
+
+/* Placeholder banner image */
+.card-banner {
+  width: 100%;
+  height: 110px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.card-banner-gradient {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-banner-icon {
+  font-size: 48px;
+  opacity: 0.22;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card-banner-route-dots {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.banner-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.banner-line {
+  width: 2px;
+  height: 18px;
+  background: rgba(255,255,255,0.4);
+}
+
+.card-banner-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 6px 14px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.banner-tag {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.banner-fare {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Card body */
+.card-body {
+  padding: 14px 16px;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-badge {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.stat-box {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 9px 10px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  color: var(--text);
+}
+
+.card-status {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Step 4 — Detail View ── */
+.detail-banner {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+}
+
+.detail-banner-gradient {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-banner-bg-icon {
+  font-size: 140px;
+  opacity: 0.1;
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+}
+
+.detail-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, transparent 60%, rgba(0,0,0,0.3) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.detail-pin-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.pin-chip {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  backdrop-filter: blur(8px);
+}
+
+.pin-start { background: rgba(39,201,111,0.25); color: #6fffb0; border: 1px solid rgba(39,201,111,0.4); }
+.pin-end   { background: rgba(232,74,95,0.25);  color: #ffb3bb; border: 1px solid rgba(232,74,95,0.4); }
+
+.detail-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.detail-subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.back-btn:hover { background: rgba(0,0,0,0.65); }
+
+/* Insight */
+.insight-box {
+  margin: 16px 20px;
+  padding: 14px 16px;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid rgba(245,166,35,0.3);
+  border-radius: 12px;
+  font-size: 13px;
+  color: #ffd27a;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.insight-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Stats hero */
+.stats-hero {
+  margin: 0 20px 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.hero-stat {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.hero-stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hero-stat-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.hero-stat-unit {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  margin-top: 2px;
+}
+
+/* Info section */
+.section {
+  margin: 0 20px 14px;
+}
+
+.section-title {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* Stop strip */
+.stops-strip {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.stops-inner {
+  display: flex;
+  align-items: center;
+  min-width: max-content;
+  gap: 0;
+}
+
+.stop-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 64px;
+}
+
+.stop-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.15);
+}
+
+.stop-dot.origin { width: 16px; height: 16px; border-color: var(--green); }
+.stop-dot.dest   { width: 16px; height: 16px; border-color: var(--red); }
+
+.stop-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+  max-width: 60px;
+  word-break: break-word;
+}
+
+.stop-label.origin { color: var(--green); font-weight: 700; }
+.stop-label.dest   { color: var(--red);   font-weight: 700; }
+
+.stop-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding-bottom: 22px;
+}
+
+.connector-line {
+  height: 3px;
+  width: 36px;
+  border-radius: 2px;
+}
+
+.xfer-tag {
+  font-size: 8px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  background: rgba(245,166,35,0.12);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(245,166,35,0.3);
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+/* Info rows */
+.info-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-row-icon {
+  font-size: 18px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.info-row-label {
+  font-size: 12px;
+  color: var(--muted);
+  flex: 1;
+}
+
+.info-row-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+  font-family: 'DM Mono', monospace;
+}
+
+/* Savings */
+.savings-card {
+  background: rgba(39,201,111,0.08);
+  border: 1.5px solid rgba(39,201,111,0.2);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.savings-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.savings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sav-item {
+  text-align: center;
+}
+
+.sav-amount {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.sav-period {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  margin-top: 2px;
+}
+
+.savings-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding-top: 10px;
+  border-top: 1px solid rgba(39,201,111,0.15);
+}
+
+.confidence-row {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.confidence-label { color: var(--muted); }
+.confidence-value { color: var(--text); font-family: 'DM Mono', monospace; font-weight: 500; }
+
+/* Bottom actions */
+.bottom-actions {
+  padding: 0 20px;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-outline {
+  flex: 1;
+  padding: 13px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.btn-outline:hover { border-color: var(--muted); }
+
+.btn-accent {
+  flex: 1;
+  padding: 13px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  transition: opacity 0.2s;
+}
+
+.btn-accent:hover { opacity: 0.88; }
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Rendered by JS -->
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const routeDatabase = {
+  'It Park-Colon': [
+    {
+      id: 'opt1', mapColor: '#27c96f',
+      title: '17B Modern Jeep',
+      tag: 'Direct · 1 ride',
+      desc: 'Via Escario & Fuente Osmeña',
+      icon: '🚌',
+      gradient: 'linear-gradient(135deg, #0f3d2a 0%, #1a6b45 50%, #0f3d2a 100%)',
+      normal: { time:'35 mins', fare:'₱20', wait:'8–12 mins', status:'🟢 Clear' },
+      rush:   { time:'70 mins', fare:'₱20', wait:'40–50 mins', status:'🔴 Heavy' },
+      stops: ['IT Park','Escario St','Fuente Osmeña','Jones Ave','Colon'],
+    },
+    {
+      id: 'opt2', mapColor: '#3d8ef8',
+      title: 'CIBUS + Jeep',
+      tag: 'Transfer at SM · 2 rides',
+      desc: 'Bus to SM City, jeep to Colon',
+      icon: '🚐',
+      gradient: 'linear-gradient(135deg, #0d1f3d 0%, #1a3d7a 50%, #0d1f3d 100%)',
+      normal: { time:'40 mins', fare:'₱33', wait:'5–10 mins', status:'🟢 Clear' },
+      rush:   { time:'55 mins', fare:'₱33', wait:'20–25 mins', status:'🟡 Moderate' },
+      stops: ['IT Park','Ayala','SM City ⇄','Jones Ave','Colon'],
+    },
+    {
+      id: 'opt3', mapColor: '#f5a623',
+      title: 'Angkas + BRT',
+      tag: 'Fastest · 2 rides',
+      desc: 'Motorbike to Fuente, BRT to Colon',
+      icon: '🏍️',
+      gradient: 'linear-gradient(135deg, #3d2800 0%, #7a5200 50%, #3d2800 100%)',
+      normal: { time:'22 mins', fare:'₱85',  wait:'2 mins', status:'🟢 Fastest' },
+      rush:   { time:'30 mins', fare:'₱110', wait:'5 mins', status:'🟢 Bypasses Traffic' },
+      stops: ['IT Park','Fuente Osmeña ⇄','Carbon BRT','Colon'],
+    },
+    {
+      id: 'opt4', mapColor: '#e84a5f',
+      title: '17C Jeep',
+      tag: 'Cheapest · 1 ride',
+      desc: 'Via F. Ramos & P. del Rosario',
+      icon: '🚌',
+      gradient: 'linear-gradient(135deg, #2d0d12 0%, #5a1a24 50%, #2d0d12 100%)',
+      normal: { time:'40 mins', fare:'₱14', wait:'12–18 mins', status:'🟢 Clear' },
+      rush:   { time:'85 mins', fare:'₱14', wait:'50+ mins',   status:'🔴 Very Slow' },
+      stops: ['IT Park','F. Ramos St','P. del Rosario','Jones Ave','Colon'],
+    },
+  ],
+  'Mandaue-Colon': [
+    {
+      id: 'opt1', mapColor: '#27c96f',
+      title: '01K Direct Jeep',
+      tag: 'Cheapest · 1 ride',
+      desc: 'Via A.S. Fortuna & Jones Ave',
+      icon: '🚌',
+      gradient: 'linear-gradient(135deg, #0f3d2a 0%, #1a6b45 50%, #0f3d2a 100%)',
+      normal: { time:'45 mins', fare:'₱18', wait:'8–12 mins', status:'🟡 Moderate' },
+      rush:   { time:'95 mins', fare:'₱18', wait:'1 hr+',     status:'🔴 Very Slow' },
+      stops: ['Mandaue','A.S. Fortuna','SM City','Jones Ave','Colon'],
+    },
+    {
+      id: 'opt2', mapColor: '#3d8ef8',
+      title: 'Jeep + BRT',
+      tag: 'Balanced · 2 rides',
+      desc: 'Jeep to SM, BRT beats the traffic',
+      icon: '🚐',
+      gradient: 'linear-gradient(135deg, #0d1f3d 0%, #1a3d7a 50%, #0d1f3d 100%)',
+      normal: { time:'38 mins', fare:'₱29', wait:'5–8 mins', status:'🟢 Good' },
+      rush:   { time:'52 mins', fare:'₱29', wait:'15 mins',  status:'🟢 Bypasses Gridlock' },
+      stops: ['Mandaue','A.S. Fortuna','SM City ⇄','Carbon BRT','Colon'],
+    },
+    {
+      id: 'opt3', mapColor: '#f5a623',
+      title: 'MyBus A/C',
+      tag: 'Comfortable · 1 ride + walk',
+      desc: 'Fixed-schedule bus, 8-min walk at end',
+      icon: '🚍',
+      gradient: 'linear-gradient(135deg, #3d2800 0%, #7a5200 50%, #3d2800 100%)',
+      normal: { time:'32 mins', fare:'₱30', wait:'15–20 mins', status:'🟢 A/C' },
+      rush:   { time:'48 mins', fare:'₱30', wait:'20 mins',    status:'🟡 Standing Room' },
+      stops: ['Mandaue','SM North Wing','Reclamation Rd','Compañia Marítima','Colon (walk)'],
+    },
+  ],
+  'Mandaue-It Park': [
+    {
+      id: 'opt1', mapColor: '#27c96f',
+      title: '22I Jeep via Banilad',
+      tag: 'Budget · 1 ride',
+      desc: 'Through Banilad & Talamban',
+      icon: '🚌',
+      gradient: 'linear-gradient(135deg, #0f3d2a 0%, #1a6b45 50%, #0f3d2a 100%)',
+      normal: { time:'28 mins', fare:'₱15', wait:'8–12 mins',  status:'🟢 Clear' },
+      rush:   { time:'65 mins', fare:'₱15', wait:'25–35 mins', status:'🔴 Bottleneck' },
+      stops: ['Mandaue','Ouano Ave','Banilad','Talamban Rd','IT Park'],
+    },
+    {
+      id: 'opt2', mapColor: '#f5a623',
+      title: 'Angkas / Habal',
+      tag: 'Fastest · 1 ride',
+      desc: 'Door-to-door motorbike, back roads',
+      icon: '🏍️',
+      gradient: 'linear-gradient(135deg, #3d2800 0%, #7a5200 50%, #3d2800 100%)',
+      normal: { time:'15 mins', fare:'₱70',  wait:'2–3 mins',  status:'🟢 Fast' },
+      rush:   { time:'25 mins', fare:'₱160', wait:'5–10 mins', status:'🔴 Surge Pricing' },
+      stops: ['Mandaue','IT Park'],
+    },
+    {
+      id: 'opt3', mapColor: '#3d8ef8',
+      title: '20B + 17B Jeep',
+      tag: 'Reliable · 2 rides',
+      desc: 'Via Ayala Center transfer',
+      icon: '🚐',
+      gradient: 'linear-gradient(135deg, #0d1f3d 0%, #1a3d7a 50%, #0d1f3d 100%)',
+      normal: { time:'42 mins', fare:'₱29', wait:'8 mins',     status:'🟡 Moderate' },
+      rush:   { time:'68 mins', fare:'₱29', wait:'25–30 mins', status:'🟡 Long Queue' },
+      stops: ['Mandaue','Basak','Ayala Center ⇄','IT Park'],
+    },
+  ],
+};
+
+const insights = {
+  rush: {
+    opt1: 'Good pick. Escario is slow but this jeep still beats the alternatives.',
+    opt2: 'Heads up: SM terminal queues run 40+ mins at peak. Add buffer time.',
+    opt3: 'Best bet right now. Angkas skips the bottleneck, BRT has its own lane.',
+    opt4: 'Only choose this if fare is everything. F. Ramos is badly jammed.',
+  },
+  normal: {
+    opt1: 'Solid choice. Light traffic, direct route, no transfers.',
+    opt2: 'Great value off-peak. Short queues and nearly as fast as premium.',
+    opt3: 'Fastest door-to-door. Worth the extra cost if you\'re in a hurry.',
+    opt4: 'Roads are clear — the cheap jeep works fine right now.',
+  },
+};
+
+// ── State ─────────────────────────────────────────────────────────────────────
+
+const state = {
+  step: 1,
+  from: '',
+  to: '',
+  selectedRoute: null,
+  simulatedHour: null,
+};
+
+function getHour() {
+  return state.simulatedHour !== null ? state.simulatedHour : new Date().getHours();
+}
+
+function isRush() {
+  const h = getHour();
+  return (h >= 7 && h <= 9) || (h >= 17 && h <= 20);
+}
+
+function getTimeStr() {
+  if (state.simulatedHour !== null) {
+    const h = state.simulatedHour;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const disp = h % 12 || 12;
+    return `🛠️ ${disp}:00 ${ampm}`;
+  }
+  return new Date().toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
+}
+
+const weathers = ['☀️ Sunny', '🌧 Rainy', '⛅ Cloudy'];
+const weather = weathers[Math.floor(Math.random() * weathers.length)];
+
+function getEventAlert() {
+  if (isRush() && Math.random() < 0.33) return '🚧 Incident near major roads — +15 mins expected.';
+  if (!isRush() && Math.random() < 0.25) return '🌧 Light rain — waiting times may be longer.';
+  return null;
+}
+
+let cachedAlert = getEventAlert();
+
+function getRoutes() {
+  const key = `${normalize(state.from)}-${normalize(state.to)}`;
+  return routeDatabase[key] || routeDatabase['It Park-Colon'];
+}
+
+function normalize(s) {
+  return s.trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+}
+
+function fmtNum(s) { return parseInt(s.replace(/\D/g, ''), 10) || 0; }
+
+function getSavings() {
+  const routes = getRoutes();
+  const sel = state.selectedRoute;
+  if (!sel) return null;
+  const selData = isRush() ? sel.rush : sel.normal;
+  const others = routes.filter(r => r.id !== sel.id);
+  if (!others.length) return null;
+  const other = others[0];
+  const otherData = isRush() ? other.rush : other.normal;
+  const sf = fmtNum(selData.fare), of = fmtNum(otherData.fare);
+  const diff = Math.abs(sf - of);
+  const daily = diff * 2, weekly = daily * 5, monthly = weekly * 4;
+  const cheaper = sf < of;
+  const st = parseInt(selData.time) || 0;
+  const ot = parseInt(otherData.time) || 0;
+  const timeSaved = Math.abs(st - ot);
+  return { daily, weekly, monthly, cheaper, timeSaved };
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = renderApp();
+  bindEvents();
+}
+
+function renderApp() {
+  return `
+    ${renderHeader()}
+    ${renderEventAlert()}
+    ${renderPage()}
+  `;
+}
+
+function renderHeader() {
+  const rush = isRush();
+  return `
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">🚌 Sugbo<span>-Save</span></div>
+      <div class="status-pill ${rush ? 'rush' : 'normal'}">
+        ${rush ? '🔴 RUSH HOUR' : '🟢 NORMAL'}
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="weather-tag">${getTimeStr()} &nbsp; ${weather}</div>
+      <div class="time-sim">
+        <select id="hourSelect" onchange="applyHour(this.value)">
+          <option value="" ${state.simulatedHour === null ? 'selected' : ''}>Live Time</option>
+          <option value="8"  ${state.simulatedHour === 8  ? 'selected' : ''}>08:00 AM – Rush</option>
+          <option value="11" ${state.simulatedHour === 11 ? 'selected' : ''}>11:00 AM – Normal</option>
+          <option value="18" ${state.simulatedHour === 18 ? 'selected' : ''}>06:00 PM – Rush</option>
+          <option value="22" ${state.simulatedHour === 22 ? 'selected' : ''}>10:00 PM – Normal</option>
+        </select>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderEventAlert() {
+  if (!cachedAlert) return '';
+  return `<div class="event-alert" style="margin:10px 20px 0;">${cachedAlert}</div>`;
+}
+
+function renderPage() {
+  if (state.step === 1) return renderStep1();
+  if (state.step === 2) return renderStep2();
+  if (state.step === 3) return renderStep3();
+  if (state.step === 4) return renderStep4();
+  return '';
+}
+
+function renderStep1() {
+  return `
+  <div class="page">
+    <div class="step-label">Where are<br>you now?</div>
+    <div class="step-sub">Enter your current location to get started.</div>
+    <div class="input-wrap">
+      <span class="input-icon">📍</span>
+      <input type="text" id="fromInput" placeholder="e.g. IT Park, Mandaue" autocomplete="off">
+    </div>
+    <div class="chip-row">
+      <div class="chip" onclick="setFrom('IT Park')">IT Park</div>
+      <div class="chip" onclick="setFrom('Mandaue')">Mandaue</div>
+      <div class="chip" onclick="setFrom('Colon')">Colon</div>
+    </div>
+    <button class="btn-primary" onclick="goStep2()">Continue →</button>
+  </div>`;
+}
+
+function renderStep2() {
+  return `
+  <div class="page">
+    <div class="step-label">Where are<br>you headed?</div>
+    <div class="step-sub">From <strong style="color:var(--accent)">${state.from}</strong></div>
+    <div class="input-wrap">
+      <span class="input-icon">🏁</span>
+      <input type="text" id="toInput" placeholder="e.g. Colon, IT Park" autocomplete="off">
+    </div>
+    <div class="chip-row">
+      <div class="chip" onclick="setTo('Colon')">Colon</div>
+      <div class="chip" onclick="setTo('IT Park')">IT Park</div>
+      <div class="chip" onclick="setTo('Mandaue')">Mandaue</div>
+    </div>
+    <button class="btn-primary" onclick="goStep3()">Find Routes →</button>
+    <button class="btn-ghost" onclick="goBack()">← Back</button>
+  </div>`;
+}
+
+function renderStep3() {
+  const routes = getRoutes();
+  const rush = isRush();
+  const fromLabel = normalize(state.from) || 'IT Park';
+  const toLabel   = normalize(state.to)   || 'Colon';
+
+  const cards = routes.map(r => {
+    const d = rush ? r.rush : r.normal;
+    const badgeColor = r.mapColor;
+    return `
+    <button class="route-card" onclick="selectRoute('${r.id}')">
+      <div class="card-banner">
+        <div class="card-banner-gradient" style="background:${r.gradient};">
+          <span class="card-banner-icon">${r.icon}</span>
+          <div class="card-banner-route-dots">
+            <div class="banner-dot" style="background:var(--green);"></div>
+            <div class="banner-line"></div>
+            <div class="banner-line"></div>
+            <div class="banner-dot" style="background:var(--red);"></div>
+          </div>
+          <div class="card-banner-label">
+            <span class="banner-tag">${r.tag}</span>
+            <span class="banner-fare">${d.fare}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-row">
+          <div class="card-title">${r.title}</div>
+          <div class="card-badge" style="background:${badgeColor}22;color:${badgeColor};border:1px solid ${badgeColor}44;">${rush ? '🔴 Rush' : '🟢 Normal'}</div>
+        </div>
+        <div class="card-desc">${r.desc}</div>
+        <div class="card-stats">
+          <div class="stat-box">
+            <div class="stat-label">Time</div>
+            <div class="stat-value">${d.time.replace(' mins','')}<span style="font-size:10px;font-family:DM Mono;color:var(--muted)"> min</span></div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Fare</div>
+            <div class="stat-value" style="color:var(--accent)">${d.fare}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Wait</div>
+            <div class="stat-value" style="font-size:11px;">${d.wait}</div>
+          </div>
+        </div>
+        <div class="card-status">${d.status}</div>
+      </div>
+    </button>`;
+  }).join('');
+
+  return `
+  <div class="page">
+    <div class="route-header">
+      <div class="route-from-to">
+        <div class="from">📍 ${fromLabel}</div>
+        <div class="arrow-line">→ ${toLabel}</div>
+      </div>
+      <div class="route-count">${routes.length} routes</div>
+    </div>
+    ${cards}
+    <button class="btn-ghost" onclick="goStep1()" style="margin-top:4px;">🔄 Start Over</button>
+  </div>`;
+}
+
+function renderStep4() {
+  const sel = state.selectedRoute;
+  if (!sel) { state.step = 3; return renderStep3(); }
+  const rush = isRush();
+  const d = rush ? sel.rush : sel.normal;
+  const fromLabel = normalize(state.from) || 'IT Park';
+  const toLabel   = normalize(state.to)   || 'Colon';
+  const insightKey = rush ? 'rush' : 'normal';
+  const insightMsg = insights[insightKey][sel.id] || 'Good choice for your journey.';
+  const savings = getSavings();
+  const confidence = rush ? 'High (peak-hour data)' : 'Medium (off-peak estimate)';
+
+  // Stop strip
+  const stops = sel.stops; const n = stops.length;
+  const stopNodes = stops.map((s, i) => {
+    const isO = i === 0, isD = i === n - 1;
+    const isX = s.includes('⇄');
+    const dotClass = isO ? 'stop-dot origin' : isD ? 'stop-dot dest' : 'stop-dot';
+    const lblClass = isO ? 'stop-label origin' : isD ? 'stop-label dest' : 'stop-label';
+    const dotStyle = isO ? `background:var(--green)` : isD ? `background:var(--red)` : `background:${sel.mapColor}`;
+    const icon = isO ? '📍 ' : isD ? '🏁 ' : '';
+    const lbl = s.replace('⇄','').trim();
+
+    let connector = '';
+    if (i < n - 1) {
+      connector = `
+      <div class="stop-connector">
+        <div class="connector-line" style="background:${sel.mapColor};"></div>
+        ${isX ? '<div class="xfer-tag">TRANSFER</div>' : ''}
+      </div>`;
+    }
+
+    return `
+    <div class="stop-node">
+      <div class="${dotClass}" style="${dotStyle};"></div>
+      <div class="${lblClass}">${icon}${lbl}</div>
+    </div>
+    ${connector}`;
+  }).join('');
+
+  // Savings block
+  let savingsHtml = '';
+  if (savings && savings.daily > 0) {
+    savingsHtml = savings.cheaper
+      ? `<div class="section">
+          <div class="section-title">💰 Savings vs. Alternatives</div>
+          <div class="savings-card">
+            <div class="savings-title">💚 You're saving money!</div>
+            <div class="savings-grid">
+              <div class="sav-item"><div class="sav-amount">₱${savings.daily}</div><div class="sav-period">/ day</div></div>
+              <div class="sav-item"><div class="sav-amount">₱${savings.weekly}</div><div class="sav-period">/ week</div></div>
+              <div class="sav-item"><div class="sav-amount">₱${savings.monthly}</div><div class="sav-period">/ month</div></div>
+            </div>
+            <div class="savings-note">Trade-off: +${savings.timeSaved} mins longer per trip · Based on Cebu commuting patterns.</div>
+          </div>
+        </div>`
+      : `<div class="section">
+          <div class="section-title">⏱️ Time vs. Money</div>
+          <div class="savings-card">
+            <div class="savings-title">⚡ Spending ₱${savings.daily}/day more</div>
+            <div class="savings-grid">
+              <div class="sav-item"><div class="sav-amount" style="color:var(--accent)">${savings.timeSaved}</div><div class="sav-period">min saved</div></div>
+              <div class="sav-item"><div class="sav-amount" style="color:var(--accent)">${Math.round(savings.timeSaved*2*5/60*10)/10}</div><div class="sav-period">hrs / week</div></div>
+              <div class="sav-item"><div class="sav-amount" style="color:var(--accent)">₱${savings.monthly}</div><div class="sav-period">extra / mo</div></div>
+            </div>
+            <div class="savings-note">You're paying for speed · Based on Cebu commuting patterns.</div>
+          </div>
+        </div>`;
+  }
+
+  return `
+  <div style="animation:fadeUp 0.25s ease;">
+    <div class="detail-banner">
+      <div class="detail-banner-gradient" style="background:${sel.gradient};">
+        <span class="detail-banner-bg-icon">${sel.icon}</span>
+        <button class="back-btn" onclick="goStep3()">← Routes</button>
+        <div class="detail-banner-overlay">
+          <div class="detail-pin-row">
+            <span class="pin-chip pin-start">📍 ${fromLabel}</span>
+            <span class="pin-chip pin-end">🏁 ${toLabel}</span>
+          </div>
+          <div class="detail-title">${sel.title}</div>
+          <div class="detail-subtitle">${sel.desc}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin:16px 20px 0;">
+      <span class="insight-icon">💡</span>
+      <span>${insightMsg}</span>
+    </div>
+
+    <div class="stats-hero" style="margin-top:14px;">
+      <div class="hero-stat">
+        <div class="hero-stat-label">Travel Time</div>
+        <div class="hero-stat-value">${parseInt(d.time) || '—'}</div>
+        <div class="hero-stat-unit">minutes</div>
+      </div>
+      <div class="hero-stat" style="border-color:${sel.mapColor}55;">
+        <div class="hero-stat-label">Fare</div>
+        <div class="hero-stat-value" style="color:var(--accent)">${d.fare}</div>
+        <div class="hero-stat-unit">${rush ? 'rush hour' : 'normal'}</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Wait</div>
+        <div class="hero-stat-value" style="font-size:14px;">${d.wait}</div>
+        <div class="hero-stat-unit">at stop</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🗺️ Route Stops</div>
+      <div class="stops-strip">
+        <div class="stops-inner">${stopNodes}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📋 Trip Details</div>
+      <div class="info-card">
+        <div class="info-row">
+          <span class="info-row-icon">📍</span>
+          <span class="info-row-label">From</span>
+          <span class="info-row-value">${fromLabel}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">🏁</span>
+          <span class="info-row-label">To</span>
+          <span class="info-row-value">${toLabel}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">⏱️</span>
+          <span class="info-row-label">Travel Time</span>
+          <span class="info-row-value">${d.time}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">💸</span>
+          <span class="info-row-label">Fare</span>
+          <span class="info-row-value" style="color:var(--accent)">${d.fare}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">⏳</span>
+          <span class="info-row-label">Wait at Stop</span>
+          <span class="info-row-value">${d.wait}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">🚦</span>
+          <span class="info-row-label">Traffic Status</span>
+          <span class="info-row-value">${d.status}</span>
+        </div>
+      </div>
+    </div>
+
+    ${savingsHtml}
+
+    <div class="section">
+      <div class="confidence-row">
+        <span class="confidence-label">🎯 Confidence</span>
+        <span class="confidence-value">${confidence}</span>
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="btn-outline" onclick="goStep3()">← All Routes</button>
+      <button class="btn-accent" onclick="goStep1()">New Trip</button>
+    </div>
+  </div>`;
+}
+
+// ── Event Handlers ─────────────────────────────────────────────────────────────
+
+function applyHour(val) {
+  state.simulatedHour = val === '' ? null : parseInt(val);
+  cachedAlert = getEventAlert();
+  render();
+}
+
+function setFrom(val) {
+  state.from = val;
+  const el = document.getElementById('fromInput');
+  if (el) el.value = val;
+}
+
+function setTo(val) {
+  state.to = val;
+  const el = document.getElementById('toInput');
+  if (el) el.value = val;
+}
+
+function goStep2() {
+  const el = document.getElementById('fromInput');
+  const val = el ? el.value.trim() : state.from;
+  if (!val) { el && el.focus(); return; }
+  state.from = val;
+  state.step = 2;
+  render();
+}
+
+function goStep3() {
+  const el = document.getElementById('toInput');
+  if (el) {
+    const val = el.value.trim();
+    if (!val) { el.focus(); return; }
+    state.to = val;
+  }
+  state.step = 3;
+  render();
+}
+
+function selectRoute(id) {
+  const routes = getRoutes();
+  state.selectedRoute = routes.find(r => r.id === id) || null;
+  state.step = 4;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goStep1() {
+  state.step = 1;
+  state.from = '';
+  state.to = '';
+  state.selectedRoute = null;
+  render();
+}
+
+function goBack() {
+  if (state.step > 1) { state.step--; render(); }
+}
+
+function bindEvents() {
+  // Enter key support on inputs
+  const fromInput = document.getElementById('fromInput');
+  const toInput   = document.getElementById('toInput');
+  if (fromInput) fromInput.addEventListener('keydown', e => { if (e.key === 'Enter') goStep2(); });
+  if (toInput)   toInput.addEventListener('keydown',   e => { if (e.key === 'Enter') goStep3(); });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+render();
+
+// Live clock
+setInterval(() => {
+  if (state.simulatedHour === null) {
+    const el = document.querySelector('.weather-tag');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' }) + '  ' + weather;
+  }
+}, 30000);
+</script>
+</body>
+</html>
