@@ -50,6 +50,12 @@ function hidden(string $name, string $val): string {
     <span class="al">AL</span><span class="tipid">TIPID</span>
 </h1>
 
+<?php if (!empty($_SESSION['user'])): ?>
+    <div class="account">Signed in as <strong><?= htmlspecialchars($_SESSION['user']) ?></strong>
+        <a href="logout.php" class="btn small red" style="display:inline-block;margin-left:12px;">Logout</a>
+    </div>
+<?php endif; ?>
+
 <div class="clock">
     <span><?= $currentTimeString ?> &nbsp;<?= $currentWeather ?></span>
     <span class="badge" style="background:<?= $statusColor ?>;"><?= $statusText ?></span>

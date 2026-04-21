@@ -46,7 +46,7 @@ input[type=text] { width:100%; padding:13px; background:#2a2a2a; border:1px soli
 .custom-select::-ms-expand { filter: brightness(0.9); }
 .custom-select::-webkit-text-fill-color { color: #fff; }
 
-.btn  { width:100%; padding:13px; color:#180e0e; border:none; font-size:16px; font-weight:bold; border-radius:5px; cursor:pointer; margin-bottom:8px; }
+.btn  { width:100%; padding:13px; color:#fff; border:none; font-size:16px; font-weight:bold; border-radius:5px; cursor:pointer; margin-bottom:8px; }
 .blue { background:#0275d8; }
 .grey { background:#444; }
 .red  { background:#c0392b; margin-top:8px; }
