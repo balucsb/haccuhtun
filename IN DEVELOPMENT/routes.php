@@ -314,14 +314,14 @@ $routeDatabase = [
             'status'=>'🟡 Variable'
         ],
         'rush' => [
-            'time'=>'60–95 mins',
+            'time'=>'60-95 mins',
             'fare'=>'₱15–₱20',
             'wait'=>'25–50 mins',
             'status'=>'🔴 Slow Flow'
         ],
 
         'stops' => ['Mandaue','Banilad','IT Park'],
-        'photo' => 'images/jeep_alt.jpg',
+        'photo' => 'images/image12.jpg',
     ],
 ],
     'Colon-Talisay' => [
@@ -345,7 +345,7 @@ $routeDatabase = [
             'status' => '🔴 Heavy Traffic'
         ],
         'stops' => ['Colon', 'Mango Jeep Terminal', 'Talisay'],
-        'photo' => 'images/mango_talisay.jpg',
+        'photo' => 'images/image13.jpg',
     ],
 
     [
@@ -373,7 +373,7 @@ $routeDatabase = [
             'Tricycle Stand',
             'Talisay'
         ],
-        'photo' => 'images/tabunok_talisay.jpg',
+        'photo' => 'images/image14.jpg',
     ],
 
     [
@@ -395,7 +395,7 @@ $routeDatabase = [
             'status' => '🔴 Surge Pricing'
         ],
         'stops' => ['Colon', 'Talisay'],
-        'photo' => 'images/angkas_talisay.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
 ],
@@ -422,7 +422,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park','Mango Ave','Capitol','Banawa','Labangon','Talisay'],
-        'photo' => 'images/mango_direct.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -446,7 +446,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park','Talisay'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -470,7 +470,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park','Talisay'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
 
@@ -497,7 +497,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park','Ayala','Colon','SRP','Talisay'],
-        'photo' => 'images/jeep_srp.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 ],
   'Mandaue-Talisay' => [
@@ -520,7 +520,7 @@ $routeDatabase = [
             'status'=>'🔴 Heavy Traffic'
         ],
         'stops' => ['Mandaue','Colon','41D Jeep Route','Gaisano Tabunok','Talisay'],
-        'photo' => 'images/jeep_transfer.jpg',
+        'photo' => 'images/image15.jpg',
     ],
         [
         'id' => 'opt2',
@@ -541,7 +541,7 @@ $routeDatabase = [
             'status'=>'🔴 Heavy Traffic'
         ],
         'stops' => ['Mandaue','Colon','41D Jeep Route','Gaisano Tabunok','Talisay'],
-        'photo' => 'images/jeep_transfer.jpg',
+        'photo' => 'images/image15.jpg',
     ],
     [
         'id' => 'opt3',
@@ -562,7 +562,7 @@ $routeDatabase = [
             'status'=>'🔴 Surge Pricing'
         ],
         'stops' => ['Mandaue','Talisay'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
     [
         'id' => 'opt4',
@@ -583,7 +583,7 @@ $routeDatabase = [
             'status'=>'🟡 Traffic'
         ],
         'stops' => ['Mandaue','Talisay'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 ],
 'Talisay-Mandaue' => [
@@ -606,7 +606,7 @@ $routeDatabase = [
             'status' => '🔴 Heavy Traffic'
         ],
         'stops' => ['Talisay', 'SRP', 'Colon', 'Jones Ave', 'Mandaue'],
-        'photo' => 'images/talisay-mandaue-41d.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -628,7 +628,7 @@ $routeDatabase = [
             'status' => '🟡 Queueing'
         ],
         'stops' => ['Talisay', 'Colon', 'Ayala', 'Mandaue'],
-        'photo' => 'images/transfer-route.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -650,7 +650,7 @@ $routeDatabase = [
             'status' => '🔴 Surge Pricing'
         ],
         'stops' => ['Talisay', 'Mandaue'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -672,7 +672,7 @@ $routeDatabase = [
             'status' => '🔴 Surge Pricing'
         ],
         'stops' => ['Talisay', 'Mandaue'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 ],
 'It Park-Mandaue' => [
@@ -698,7 +698,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park', 'Banilad', 'A.S. Fortuna', 'Mandaue'],
-        'photo' => 'images/itp-mda-20b.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -722,7 +722,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park', 'Ayala', 'Mandaue'],
-        'photo' => 'images/transfer-itp-mda.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -746,7 +746,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park', 'Mandaue'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -770,7 +770,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['IT Park', 'Mandaue'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 ],
 'Colon-Mandaue' => [
@@ -796,7 +796,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Colon', 'Jones Ave', 'SM City Cebu', 'A.S. Fortuna', 'Mandaue'],
-        'photo' => 'images/colon-mandaue-jeep.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -820,7 +820,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Colon', 'Ayala Center', 'Mandaue'],
-        'photo' => 'images/colon-ayala-mandaue.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -844,7 +844,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Colon', 'Mandaue'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -868,7 +868,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Colon', 'Mandaue'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 ],
 'Talisay-It Park' => [
@@ -894,7 +894,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Talisay', 'Tabunok', 'Colon', 'Ayala Center', 'IT Park'],
-        'photo' => 'images/talisay-itpark-jeep.jpg',
+        'photo' => 'images/image15.jpg',
     ],
     
 
@@ -919,7 +919,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Talisay', 'Banawa', 'Capitol', 'Escario', 'IT Park'],
-        'photo' => 'images/mango-jeep.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -943,7 +943,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Talisay', 'Colon', 'Jones Ave', 'IT Park'],
-        'photo' => 'images/transfer-talisay.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -967,7 +967,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Talisay', 'IT Park'],
-        'photo' => 'images/angkas.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
     [
@@ -991,7 +991,7 @@ $routeDatabase = [
         ],
 
         'stops' => ['Talisay', 'IT Park'],
-        'photo' => 'images/taxi.jpg',
+        'photo' => 'images/image15.jpg',
     ],
 
 ],
