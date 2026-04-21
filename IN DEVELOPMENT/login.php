@@ -1,4 +1,8 @@
 <?php
+if ($step > 2 && $currentLocation === $destination) {
+    header("Location: index.php?step=2&current_location=" . urlencode($currentLocation));
+    exit;
+}
 session_start();
 // Simple prototype login (single user: admin/admin)
 if (!empty($_SESSION['logged_in'])) {

@@ -4,123 +4,326 @@
 $routeDatabase = [
 
     'It Park-Colon' => [
-        [
-            'id' => 'opt1', 'map_color' => '#5cb85c',
-            'title' => '17B Modern Jeep',
-            'tag'   => 'Direct • 1 ride',
-            'desc'  => 'Via Escario & Fuente Osmeña',
-            'normal' => ['time'=>'35 mins','fare'=>'₱20','wait'=>'8–12 mins','status'=>'🟢 Clear'],
-            'rush'   => ['time'=>'60 mins','fare'=>'₱20','wait'=>'40–50 mins','status'=>'🔴 Heavy'],
-            'stops'  => ['IT Park','Escario St','Fuente Osmeña','Jones Ave','Colon'],
-            'photo'  => 'images/image1.jpg',
+
+    [
+        'id' => 'opt1',
+        'map_color' => '#5cb85c',
+        'title' => '17B Jeep (Direct)',
+        'tag'   => 'Direct • 1 ride',
+        'desc'  => 'Via Escario & Fuente Osmeña',
+
+        'normal' => [
+            'time'  => '40–55 mins',
+            'fare'  => '₱15–₱20',
+            'wait'  => '10–20 mins',
+            'status'=> '🟢 Usual Flow'
         ],
-        [
-            'id' => 'opt2', 'map_color' => '#0275d8',
-            'title' => 'Jeep + CIBUS',
-            'tag'   => 'Transfer at SM • 2 rides',
-            'desc'  => 'Jeep to BRT, BRT to IT Park',
-            'normal' => ['time'=>'40 mins','fare'=>'₱33','wait'=>'10–20 mins','status'=>'🟢 Clear'],
-            'rush'   => ['time'=>'60 mins','fare'=>'₱33','wait'=>'20–25 mins','status'=>'🟡 Moderate'],
-            'stops'  => ['IT Park','Ayala','SM City ⇄','Jones Ave','Colon'],
-            'photo'  => 'images/image2.jpg',
+        'rush' => [
+            'time'  => '60–90 mins',
+            'fare'  => '₱15–₱20',
+            'wait'  => '25–45 mins',
+            'status'=> '🔴 Heavy Traffic'
         ],
-        [
-            'id' => 'opt3', 'map_color' => '#f0ad4e',
-            'title' => 'Angkas / Habal-habal',
-            'tag'   => 'Fastest • 1 ride',
-            'desc'  => 'Door-to-door motorbike bypass',
-            'normal' => ['time'=>'18 mins','fare'=>'₱108', 'wait'=>'8–12 mins','status'=>'🟢 Fastest'],
-            'rush'   => ['time'=>'30 mins','fare'=>'₱140','wait'=>'5–10 mins','status'=>'🔴 Surge Pricing'],
-            'stops'  => ['IT Park','Colon'],
-            'photo'  => 'images/image3.jpg',
-        ],
-        [
-            'id' => 'opt4', 'map_color' => '#d9534f',
-            'title' => '17C Jeep',
-            'tag'   => 'Cheapest • 1 ride',
-            'desc'  => 'Via F. Ramos & P. del Rosario',
-            'normal' => ['time'=>'40 mins','fare'=>'₱14','wait'=>'12–18 mins','status'=>'🟢 Clear'],
-            'rush'   => ['time'=>'65 mins','fare'=>'₱14','wait'=>'50+ mins',  'status'=>'🔴 Very Slow'],
-            'stops'  => ['IT Park','F. Ramos St','P. del Rosario','Jones Ave','Colon'],
-            'photo'  => 'images/image4.jpg',
-        ],
+
+        'stops' => ['IT Park','Escario','Fuente Osmeña','Jones Ave','Colon'],
+        'photo' => 'images/image1.jpg',
     ],
+
+    [
+        'id' => 'opt2',
+        'map_color' => '#0275d8',
+        'title' => 'Jeep + CIBUS / BRT Transfer',
+        'tag'   => 'Transfer • 2 rides',
+        'desc'  => 'Jeep to Ayala → BRT → Colon',
+
+        'normal' => [
+            'time'  => '45–60 mins',
+            'fare'  => '₱28–₱35',
+            'wait'  => '15–25 mins',
+            'status'=> '🟡 Moderate'
+        ],
+        'rush' => [
+            'time'  => '60–95 mins',
+            'fare'  => '₱28–₱35',
+            'wait'  => '25–45 mins',
+            'status'=> '🔴 Queueing'
+        ],
+
+        'stops' => ['IT Park','Ayala','SM City','Jones Ave','Colon'],
+        'photo' => 'images/image2.jpg',
+    ],
+
+    [
+        'id' => 'opt3',
+        'map_color' => '#f0ad4e',
+        'title' => 'Angkas / Habal-habal',
+        'tag'   => 'Fastest • Door-to-door',
+        'desc'  => 'Motorbike bypass via main roads or backroads',
+
+        'normal' => [
+            'time'  => '20–30 mins',
+            'fare'  => '₱110–₱140',
+            'wait'  => '3–8 mins',
+            'status'=> '🟢 Fastest'
+        ],
+        'rush' => [
+            'time'  => '30–50 mins',
+            'fare'  => '₱130–₱170',
+            'wait'  => '5–15 mins',
+            'status'=> '🔴 Surge Pricing'
+        ],
+
+        'stops' => ['IT Park','Colon'],
+        'photo' => 'images/image3.jpg',
+    ],
+
+    [
+        'id' => 'opt4',
+        'map_color' => '#d9534f',
+        'title' => '17C Jeep (via F. Ramos)',
+        'tag'   => 'Cheapest • 1 ride',
+        'desc'  => 'Via F. Ramos & P. del Rosario',
+
+        'normal' => [
+            'time'  => '45–60 mins',
+            'fare'  => '₱15',
+            'wait'  => '12–20 mins',
+            'status'=> '🟢 Budget Route'
+        ],
+        'rush' => [
+            'time'  => '65–95 mins',
+            'fare'  => '₱15',
+            'wait'  => '25–50 mins',
+            'status'=> '🔴 Very Slow'
+        ],
+
+        'stops' => ['IT Park','F. Ramos','P. del Rosario','Jones Ave','Colon'],
+        'photo' => 'images/image4.jpg',
+    ],
+],
 
     'Mandaue-Colon' => [
-        [
-            'id' => 'opt1', 'map_color' => '#5cb85c',
-            'title' => '01K Direct Jeep',
-            'tag'   => 'Direct • 1 ride',
-            'desc'  => 'Via A.S. Fortuna & Jones Ave',
-            'normal' => ['time'=>'45 mins','fare'=>'₱18','wait'=>'8–12 mins','status'=>'🟡 Moderate'],
-            'rush'   => ['time'=>'95 mins','fare'=>'₱18','wait'=>'1 hr+',    'status'=>'🔴 Very Slow'],
-            'stops'  => ['Mandaue','A.S. Fortuna','SM City','Jones Ave','Colon'],
-            'photo'  => 'images/image5.jpg',
+
+    [
+        'id' => 'opt1',
+        'map_color' => '#5cb85c',
+        'title' => '01K Jeep (Direct)',
+        'tag'   => 'Direct • 1 ride',
+        'desc'  => 'Via A.S. Fortuna → SM City → Jones Ave → Colon',
+
+        'normal' => [
+            'time'  => '40–55 mins',
+            'fare'  => '₱15–₱20',
+            'wait'  => '10–20 mins',
+            'status'=> '🟡 Moderate'
         ],
-        [
-            'id' => 'opt2', 'map_color' => '#0275d8',
-            'title' => 'Jeep + MyBus',
-            'tag'   => 'A/C Transfer • 2 rides',
-            'desc'  => 'Jeep to SM, MyBus to Compañia Marítima',
-            'normal' => ['time'=>'38 mins','fare'=>'₱40','wait'=>'10 mins','status'=>'🟢 Good'],
-            'rush'   => ['time'=>'52 mins','fare'=>'₱40','wait'=>'20 mins', 'status'=>'🟡 Moderate Queue'],
-            'stops'  => ['Mandaue','A.S. Fortuna','SM City ⇄','Compañia Marítima','Colon'],
-            'photo'  => 'images/image6.jpg',
+        'rush' => [
+            'time'  => '70–110 mins',
+            'fare'  => '₱15–₱20',
+            'wait'  => '25–50 mins',
+            'status'=> '🔴 Heavy Traffic'
         ],
-        [
-            'id' => 'opt3', 'map_color' => '#f0ad4e',
-            'title' => 'Angkas / Habal',
-            'tag'   => 'Fastest • 1 ride',
-            'desc'  => 'Door-to-door motorbike',
-            'normal' => ['time'=>'20 mins','fare'=>'₱114','wait'=>'3 mins','status'=>'🟢 Fast'],
-            'rush'   => ['time'=>'35 mins','fare'=>'₱160','wait'=>'8 mins','status'=>'🔴 Surge Pricing'],
-            'stops'  => ['Mandaue','Colon'],
-            'photo'  => 'images/image7.jpg',
-        ],
-        [
-            'id' => 'opt4', 'map_color' => '#d9534f',
-            'title' => '21B Jeep',
-            'tag'   => 'Cheapest • 1 ride',
-            'desc'  => 'Via Reclamation & SM',
-            'normal' => ['time'=>'40 mins','fare'=>'₱16','wait'=>'10 mins','status'=>'🟢 Clear'],
-            'rush'   => ['time'=>'80 mins','fare'=>'₱16','wait'=>'45+ mins','status'=>'🔴 Heavy'],
-            'stops'  => ['Mandaue','Reclamation Rd','SM City','Colon'],
-            'photo'  => 'images/image11.jpg',
-        ],
+
+        'stops' => ['Mandaue','A.S. Fortuna','SM City Cebu','Jones Ave','Colon'],
+        'photo' => 'images/image5.jpg',
     ],
 
-    'Mandaue-It Park' => [
-        [
-            'id' => 'opt1', 'map_color' => '#5cb85c',
-            'title' => '22I Jeep via Banilad',
-            'tag'   => 'Budget • 1 ride',
-            'desc'  => 'Through Banilad & Talamban',
-            'normal' => ['time'=>'28 mins','fare'=>'₱23','wait'=>'8–12 mins', 'status'=>'🟢 Clear'],
-            'rush'   => ['time'=>'65 mins','fare'=>'₱23','wait'=>'25–35 mins','status'=>'🔴 Bottleneck'],
-            'stops'  => ['Mandaue','Ouano Ave','Banilad','Talamban Rd','IT Park'],
-            'photo'  => 'images/image8.jpg',
+    [
+        'id' => 'opt2',
+        'map_color' => '#0275d8',
+        'title' => 'Jeep + MyBus Transfer',
+        'tag'   => 'A/C • 2 rides',
+        'desc'  => 'Jeep to SM City → MyBus to city center',
+
+        'normal' => [
+            'time'  => '45–60 mins',
+            'fare'  => '₱35–₱45',
+            'wait'  => '15–25 mins',
+            'status'=> '🟢 Stable'
         ],
-        [
-            'id' => 'opt2', 'map_color' => '#0275d8',
-            'title' => '20B + 17B Jeep',
-            'tag'   => 'Reliable • 2 rides',
-            'desc'  => 'Via Ayala Center transfer',
-            'normal' => ['time'=>'42 mins','fare'=>'₱29','wait'=>'8 mins',    'status'=>'🟡 Moderate'],
-            'rush'   => ['time'=>'60 mins','fare'=>'₱29','wait'=>'25–30 mins','status'=>'🟡 Long Queue'],
-            'stops'  => ['Mandaue','Basak','Ayala Center ⇄','IT Park'],
-            'photo'  => 'images/image10.jpg',
+        'rush' => [
+            'time'  => '60–85 mins',
+            'fare'  => '₱35–₱45',
+            'wait'  => '20–40 mins',
+            'status'=> '🟡 Queueing'
         ],
-        [
-            'id' => 'opt3', 'map_color' => '#f0ad4e',
-            'title' => 'Angkas / Habal',
-            'tag'   => 'Fastest • 1 ride',
-            'desc'  => 'Door-to-door motorbike, back roads',
-            'normal' => ['time'=>'15 mins','fare'=>'₱117', 'wait'=>'2–3 mins', 'status'=>'🟢 Fast'],
-            'rush'   => ['time'=>'25 mins','fare'=>'₱160','wait'=>'5–10 mins','status'=>'🔴 Surge Pricing'],
-            'stops'  => ['Mandaue','IT Park'],
-            'photo'  => 'images/image9.jpg',
-        ],
+
+        'stops' => ['Mandaue','A.S. Fortuna','SM City','Colon'],
+        'photo' => 'images/image6.jpg',
     ],
+
+    [
+        'id' => 'opt3',
+        'map_color' => '#f0ad4e',
+        'title' => 'Angkas / Habal-habal',
+        'tag'   => 'Fastest • Door-to-door',
+        'desc'  => 'Motorbike via main roads or backroads',
+
+        'normal' => [
+            'time'  => '20–30 mins',
+            'fare'  => '₱100–₱140',
+            'wait'  => '3–8 mins',
+            'status'=> '🟢 Fast'
+        ],
+        'rush' => [
+            'time'  => '30–50 mins',
+            'fare'  => '₱120–₱160',
+            'wait'  => '5–15 mins',
+            'status'=> '🔴 Surge Pricing'
+        ],
+
+        'stops' => ['Mandaue','Colon'],
+        'photo' => 'images/image7.jpg',
+    ],
+
+    [
+        'id' => 'opt4',
+        'map_color' => '#d9534f',
+        'title' => '21B Jeep (via Reclamation)',
+        'tag'   => 'Budget • 1 ride',
+        'desc'  => 'Via Reclamation Road → SM City → Colon',
+
+        'normal' => [
+            'time'  => '40–55 mins',
+            'fare'  => '₱15–₱18',
+            'wait'  => '10–20 mins',
+            'status'=> '🟢 Usual Flow'
+        ],
+        'rush' => [
+            'time'  => '70–100 mins',
+            'fare'  => '₱15–₱18',
+            'wait'  => '25–45 mins',
+            'status'=> '🔴 Heavy Traffic'
+        ],
+
+        'stops' => ['Mandaue','Reclamation Area','SM City Cebu','Colon'],
+        'photo' => 'images/image11.jpg',
+    ],
+],
+
+   'Mandaue-It Park' => [
+
+    [
+        'id' => 'opt1',
+        'map_color' => '#5cb85c',
+        'title' => '22I Jeep via Banilad',
+        'tag'   => 'Budget • 1 ride',
+        'desc'  => 'Through Banilad & Talamban',
+
+        'normal' => [
+            'time'=>'30–45 mins',
+            'fare'=>'₱15–₱20',
+            'wait'=>'10–20 mins',
+            'status'=>'🟢 Usual Flow'
+        ],
+        'rush' => [
+            'time'=>'60–90 mins',
+            'fare'=>'₱15–₱20',
+            'wait'=>'25–45 mins',
+            'status'=>'🔴 Bottleneck (Banilad)'
+        ],
+
+        'stops' => ['Mandaue','Banilad','Talamban','IT Park'],
+        'photo' => 'images/image8.jpg',
+    ],
+
+    [
+        'id' => 'opt2',
+        'map_color' => '#0275d8',
+        'title' => '20B + 17B Transfer',
+        'tag'   => 'Reliable • 2 rides',
+        'desc'  => 'Via Ayala Center transfer',
+
+        'normal' => [
+            'time'=>'40–55 mins',
+            'fare'=>'₱25–₱30',
+            'wait'=>'10–25 mins',
+            'status'=>'🟡 Moderate'
+        ],
+        'rush' => [
+            'time'=>'60–80 mins',
+            'fare'=>'₱25–₱30',
+            'wait'=>'25–40 mins',
+            'status'=>'🟡 Queueing'
+        ],
+
+        'stops' => ['Mandaue','Ayala','IT Park'],
+        'photo' => 'images/image10.jpg',
+    ],
+
+    [
+        'id' => 'opt3',
+        'map_color' => '#f0ad4e',
+        'title' => 'Angkas / Habal-habal',
+        'tag'   => 'Fastest • 1 ride',
+        'desc'  => 'Motorbike via main roads or backroads',
+
+        'normal' => [
+            'time'=>'15–25 mins',
+            'fare'=>'₱100–₱140',
+            'wait'=>'3–8 mins',
+            'status'=>'🟢 Fast'
+        ],
+        'rush' => [
+            'time'=>'25–45 mins',
+            'fare'=>'₱120–₱160',
+            'wait'=>'5–15 mins',
+            'status'=>'🔴 Surge Pricing'
+        ],
+
+        'stops' => ['Mandaue','IT Park'],
+        'photo' => 'images/image9.jpg',
+    ],
+
+    [
+        'id' => 'opt4',
+        'map_color' => '#27a0cf',
+        'title' => 'Taxi / Grab',
+        'tag'   => 'Comfort • Door-to-door',
+        'desc'  => 'Direct air-conditioned ride',
+
+        'normal' => [
+            'time'=>'15–25 mins',
+            'fare'=>'₱120–₱180',
+            'wait'=>'3–8 mins',
+            'status'=>'🟢 Smooth'
+        ],
+        'rush' => [
+            'time'=>'25–40 mins',
+            'fare'=>'₱180–₱300',
+            'wait'=>'5–15 mins',
+            'status'=>'🔴 Surge Pricing'
+        ],
+
+        'stops' => ['Mandaue','IT Park'],
+        'photo' => 'images/image9.jpg',
+    ],
+
+ 
+
+    [
+        'id' => 'opt5',
+        'map_color' => '#6c757d',
+        'title' => 'PUJ (Banilad Shortcut Jeep)',
+        'tag'   => 'Cheapest alternative',
+
+        'normal' => [
+            'time'=>'35–50 mins',
+            'fare'=>'₱15–₱20',
+            'wait'=>'10–25 mins',
+            'status'=>'🟡 Variable'
+        ],
+        'rush' => [
+            'time'=>'60–95 mins',
+            'fare'=>'₱15–₱20',
+            'wait'=>'25–50 mins',
+            'status'=>'🔴 Slow Flow'
+        ],
+
+        'stops' => ['Mandaue','Banilad','IT Park'],
+        'photo' => 'images/jeep_alt.jpg',
+    ],
+],
     'Colon-Talisay' => [
 
     [
@@ -196,7 +399,7 @@ $routeDatabase = [
     ],
 
 ],
-            'It Park-Talisay' => [
+      'It Park-Talisay' => [
 
     [
         'id' => 'opt1',
@@ -204,34 +407,97 @@ $routeDatabase = [
         'title' => 'Yellow Mango Jeep (Direct)',
         'tag'   => 'Direct • 1 ride',
         'desc'  => 'IT Park → Capitol → Banawa → Labangon → Talisay',
-        'normal' => ['time'=>'40 mins','fare'=>'₱20','wait'=>'10–15 mins','status'=>'🟢 Smooth'],
-        'rush'   => ['time'=>'70 mins','fare'=>'₱20','wait'=>'30–40 mins','status'=>'🔴 Heavy'],
-        'stops'  => ['IT Park','Mango Ave','Bulacao','Talisay'],
-        'photo'  => 'images/mango_direct.jpg',
+
+        'normal' => [
+            'time'=>'45–60 mins',
+            'fare'=>'₱20–₱25',
+            'wait'=>'10–20 mins',
+            'status'=>'🟢 Usual Flow'
+        ],
+        'rush' => [
+            'time'=>'75–120 mins',
+            'fare'=>'₱20–₱25',
+            'wait'=>'30–50 mins',
+            'status'=>'🔴 Heavy Traffic'
+        ],
+
+        'stops' => ['IT Park','Mango Ave','Capitol','Banawa','Labangon','Talisay'],
+        'photo' => 'images/mango_direct.jpg',
+    ],
+
+    [
+        'id' => 'opt2',
+        'map_color' => '#e67e22',
+        'title' => 'Angkas / Habal-habal',
+        'tag'   => 'Fastest • 1 ride',
+        'desc'  => 'Door-to-door motorcycle via SRP or backroads',
+
+        'normal' => [
+            'time'=>'30–45 mins',
+            'fare'=>'₱150–₱200',
+            'wait'=>'3–8 mins',
+            'status'=>'🟢 Fastest'
+        ],
+        'rush' => [
+            'time'=>'45–70 mins',
+            'fare'=>'₱180–₱250',
+            'wait'=>'5–15 mins',
+            'status'=>'🔴 Surge Pricing'
+        ],
+
+        'stops' => ['IT Park','Talisay'],
+        'photo' => 'images/angkas.jpg',
     ],
 
     [
         'id' => 'opt3',
-        'map_color' => '#e67e22',
-        'title' => 'Angkas / Habal-habal',
-        'tag'   => 'Fastest • 1 ride',
-        'desc'  => 'Door-to-door motorcycle',
-        'normal' => ['time'=>'25 mins','fare'=>'₱180','wait'=>'5–10 mins','status'=>'🟢 Fastest'],
-        'rush'   => ['time'=>'40 mins','fare'=>'₱230','wait'=>'5–8 mins','status'=>'🔴 Surge'],
-        'stops'  => ['IT Park','Talisay'],
-        'photo'  => 'images/angkas.jpg',
-    ],
-
-    [
-        'id' => 'opt4',
         'map_color' => '#34495e',
         'title' => 'Taxi / Grab',
         'tag'   => 'Comfort • Door-to-door',
-        'desc'  => 'Direct air-conditioned ride',
-        'normal' => ['time'=>'35 mins','fare'=>'₱250–₱350','wait'=>'5–15 mins','status'=>'🟢 Comfortable'],
-        'rush'   => ['time'=>'60 mins','fare'=>'₱350–₱500','wait'=>'10–25 mins','status'=>'🟡 Surge Pricing'],
-        'stops'  => ['IT Park','Talisay'],
-        'photo'  => 'images/taxi.jpg',
+        'desc'  => 'Direct SRP highway route',
+
+        'normal' => [
+            'time'=>'40–60 mins',
+            'fare'=>'₱250–₱400',
+            'wait'=>'5–10 mins',
+            'status'=>'🟢 Comfortable'
+        ],
+        'rush' => [
+            'time'=>'70–110 mins',
+            'fare'=>'₱350–₱600',
+            'wait'=>'10–20 mins',
+            'status'=>'🔴 Surge Pricing'
+        ],
+
+        'stops' => ['IT Park','Talisay'],
+        'photo' => 'images/taxi.jpg',
+    ],
+
+
+
+    [
+        'id' => 'opt4',
+        'map_color' => '#6c757d',
+        'title' => 'Jeep + SRP Transfer Route',
+        'tag'   => 'Budget fallback • indirect',
+
+        'desc'  => 'IT Park → Ayala → Colon → SRP → Talisay',
+
+        'normal' => [
+            'time'=>'60–90 mins',
+            'fare'=>'₱25–₱35',
+            'wait'=>'15–25 mins',
+            'status'=>'🟡 Variable Flow'
+        ],
+        'rush' => [
+            'time'=>'90–150 mins',
+            'fare'=>'₱25–₱35',
+            'wait'=>'30–60 mins',
+            'status'=>'🔴 Highly Congested'
+        ],
+
+        'stops' => ['IT Park','Ayala','Colon','SRP','Talisay'],
+        'photo' => 'images/jeep_srp.jpg',
     ],
 ],
   'Mandaue-Talisay' => [
@@ -257,7 +523,7 @@ $routeDatabase = [
         'photo' => 'images/jeep_transfer.jpg',
     ],
         [
-        'id' => 'opt1',
+        'id' => 'opt2',
         'map_color' => '#5cb85c',
         'title' => '01K Jeep + 42D/ Mango Jeep',
         'tag'   => 'Budget • 3 rides',
@@ -278,13 +544,13 @@ $routeDatabase = [
         'photo' => 'images/jeep_transfer.jpg',
     ],
     [
-        'id' => 'opt2',
+        'id' => 'opt3',
         'map_color' => '#f0ad4e',
         'title' => 'Angkas / Habal-habal',
         'tag'   => 'Fastest • Direct',
         'desc'  => 'Door-to-door motorcycle ride',
         'normal' => [
-            'time'=>'25 mins',
+            'time'=>'40 mins',
             'fare'=>'₱150',
             'wait'=>'3–5 mins',
             'status'=>'🟢 Fastest'
@@ -299,7 +565,7 @@ $routeDatabase = [
         'photo' => 'images/angkas.jpg',
     ],
     [
-        'id' => 'opt3',
+        'id' => 'opt4',
         'map_color' => '#0275d8',
         'title' => 'Taxi',
         'tag'   => 'Comfort • Direct',
@@ -372,13 +638,13 @@ $routeDatabase = [
         'tag' => 'Fastest • Door-to-door',
         'desc' => 'Direct motorcycle via South Road',
         'normal' => [
-            'time' => '30 mins',
+            'time' => '40 mins',
             'fare' => '₱150',
             'wait' => '5–10 mins',
             'status' => '🟢 Fastest'
         ],
         'rush' => [
-            'time' => '45 mins',
+            'time' => '55 mins',
             'fare' => '₱180',
             'wait' => '10–15 mins',
             'status' => '🔴 Surge Pricing'
@@ -419,13 +685,13 @@ $routeDatabase = [
         'desc'  => 'Via Banilad Road → A.S. Fortuna → Mandaue',
 
         'normal' => [
-            'time' => '35 mins',
+            'time' => '45 mins',
             'fare' => '₱15',
             'wait' => '8–12 mins',
             'status' => '🟢 Clear'
         ],
         'rush' => [
-            'time' => '60 mins',
+            'time' => '80 mins',
             'fare' => '₱15',
             'wait' => '20–30 mins',
             'status' => '🔴 Heavy Traffic'
@@ -449,7 +715,7 @@ $routeDatabase = [
             'status' => '🟡 Moderate'
         ],
         'rush' => [
-            'time' => '55 mins',
+            'time' => '80 mins',
             'fare' => '₱25',
             'wait' => '20–25 mins',
             'status' => '🟡 Queueing'
@@ -467,13 +733,13 @@ $routeDatabase = [
         'desc'  => 'Motorbike via back roads / main highway bypass',
 
         'normal' => [
-            'time' => '15 mins',
+            'time' => '30 mins',
             'fare' => '₱110',
             'wait' => '3–5 mins',
             'status' => '🟢 Fastest'
         ],
         'rush' => [
-            'time' => '25 mins',
+            'time' => '40 mins',
             'fare' => '₱140',
             'wait' => '5–10 mins',
             'status' => '🔴 Surge Pricing'
@@ -497,7 +763,7 @@ $routeDatabase = [
             'status' => '🟢 Comfortable'
         ],
         'rush' => [
-            'time' => '35 mins',
+            'time' => '45 mins',
             'fare' => '₱300+',
             'wait' => '10–15 mins',
             'status' => '🔴 Surge Pricing'
@@ -604,6 +870,130 @@ $routeDatabase = [
         'stops' => ['Colon', 'Mandaue'],
         'photo' => 'images/taxi.jpg',
     ],
+],
+'Talisay-It Park' => [
+
+    [
+        'id' => 'opt1',
+        'map_color' => '#5cb85c',
+        'title' => ' Tricycle 41d + Transfer (Colon → Ayala → IT Park)',
+        'tag'   => 'Most common jeep route',
+        'desc'  => 'Talisay → tabunok → Colon → Ayala → IT Park',
+
+        'normal' => [
+            'time' => '45 mins',
+            'fare' => '₱40 - 50',
+            'wait' => '10–15 mins',
+            'status' => '🟡 Moderate'
+        ],
+        'rush' => [
+            'time' => '60 mins',
+            'fare' => '₱40 - 50',
+            'wait' => '30–45 mins',
+            'status' => '🔴 Heavy Traffic'
+        ],
+
+        'stops' => ['Talisay', 'Tabunok', 'Colon', 'Ayala Center', 'IT Park'],
+        'photo' => 'images/talisay-itpark-jeep.jpg',
+    ],
+    
+
+    [
+        'id' => 'opt2',
+        'map_color' => '#f0ad4e',
+        'title' => 'Mango Jeep (via Banawa & Capitol)',
+        'tag'   => 'Scenic city route • 1 ride',
+        'desc'  => 'Talisay → Banawa → Capitol → IT Park (Yellow Mango Jeep)',
+
+        'normal' => [
+            'time' => '55 mins',
+            'fare' => '₱30',
+            'wait' => '10–20 mins',
+            'status' => '🟢 Stable'
+        ],
+        'rush' => [
+            'time' => '90 mins',
+            'fare' => '₱30',
+            'wait' => '25–40 mins',
+            'status' => '🟡 Moderate Traffic'
+        ],
+
+        'stops' => ['Talisay', 'Banawa', 'Capitol', 'Escario', 'IT Park'],
+        'photo' => 'images/mango-jeep.jpg',
+    ],
+
+    [
+        'id' => 'opt3',
+        'map_color' => '#0275d8',
+        'title' => 'Jeep Transfer (Talisay → Colon → IT Park)',
+        'tag'   => '2 rides • Budget option',
+        'desc'  => 'Talisay jeep to Colon, then IT Park-bound jeep',
+
+        'normal' => [
+            'time' => '70 mins',
+            'fare' => '₱35',
+            'wait' => '10–15 mins',
+            'status' => '🟡 Moderate'
+        ],
+        'rush' => [
+            'time' => '120 mins',
+            'fare' => '₱35',
+            'wait' => '30–50 mins',
+            'status' => '🔴 Heavy Queue'
+        ],
+
+        'stops' => ['Talisay', 'Colon', 'Jones Ave', 'IT Park'],
+        'photo' => 'images/transfer-talisay.jpg',
+    ],
+
+    [
+        'id' => 'opt4',
+        'map_color' => '#d9534f',
+        'title' => 'Angkas / Habal-Habal',
+        'tag'   => 'Fastest • Door-to-door',
+        'desc'  => 'Motorcycle via SRP or South Coastal Road',
+
+        'normal' => [
+            'time' => '30 mins',
+            'fare' => '₱160',
+            'wait' => '5–10 mins',
+            'status' => '🟢 Fastest'
+        ],
+        'rush' => [
+            'time' => '45 mins',
+            'fare' => '₱200',
+            'wait' => '10–15 mins',
+            'status' => '🔴 Surge Pricing'
+        ],
+
+        'stops' => ['Talisay', 'IT Park'],
+        'photo' => 'images/angkas.jpg',
+    ],
+
+    [
+        'id' => 'opt5',
+        'map_color' => '#6c757d',
+        'title' => 'Taxi / Grab',
+        'tag'   => 'Comfort • Direct',
+        'desc'  => 'Point-to-point via SRP highway',
+
+        'normal' => [
+            'time' => '40 mins',
+            'fare' => '₱300–₱450',
+            'wait' => '5 mins',
+            'status' => '🟢 Comfortable'
+        ],
+        'rush' => [
+            'time' => '70 mins',
+            'fare' => '₱500+',
+            'wait' => '10–20 mins',
+            'status' => '🔴 Surge Pricing'
+        ],
+
+        'stops' => ['Talisay', 'IT Park'],
+        'photo' => 'images/taxi.jpg',
+    ],
+
 ],
 ];
         

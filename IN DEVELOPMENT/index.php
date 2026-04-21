@@ -107,8 +107,9 @@ function hidden(string $name, string $val): string {
         </select>
     </div>
     <button class="btn blue" type="submit">Next →</button>
-    <p class="hint">Supported: IT Park · Colon · Mandaue</p>
+    <p class="hint">Supported: IT Park · Colon · Mandaue · Talisay</p>
 </form>
+
 
 <?php elseif ($step === 2): ?>
 <!-- ── STEP 2 ── -->
