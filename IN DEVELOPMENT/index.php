@@ -53,9 +53,7 @@ function hidden(string $name, string $val): string {
     <span class="badge" style="background:<?= $statusColor ?>;"><?= $statusText ?></span>
 </div>
 
-<?php if ($eventAlert): ?>
-<div class="alert" style="background:#7b1a1a;color:#fff;"><?= $eventAlert ?></div>
-<?php endif; ?>
+
 
 <!-- Debug -->
 <div class="debug">
