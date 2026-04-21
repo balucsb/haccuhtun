@@ -115,7 +115,7 @@ $routeDatabase = [
             'title' => 'Angkas / Habal',
             'tag'   => 'Fastest • 1 ride',
             'desc'  => 'Door-to-door motorbike, back roads',
-            'normal' => ['time'=>'15 mins','fare'=>'₱70', 'wait'=>'2–3 mins', 'status'=>'🟢 Fast'],
+            'normal' => ['time'=>'15 mins','fare'=>'₱120', 'wait'=>'2–3 mins', 'status'=>'🟢 Fast'],
             'rush'   => ['time'=>'25 mins','fare'=>'₱160','wait'=>'5–10 mins','status'=>'🔴 Surge Pricing'],
             'stops'  => ['Mandaue','IT Park'],
             'photo'  => 'images/image9.jpg',
