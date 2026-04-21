@@ -14,15 +14,22 @@ h3 { font-size: 16px; color: #fff; margin: 0 0 10px; padding-bottom: 8px; border
 .debug button { padding:7px 12px; background:#e6a23c; color:#000; border:none; border-radius:4px; font-weight:bold; font-size:13px; cursor:pointer; }
 
 label { display:block; font-size:15px; font-weight:bold; margin-bottom:8px; }
-input[type=text] { width:100%; padding:13px; background:#2a2a2a; border:1px solid #444; color:#fff; font-size:15px; border-radius:5px; margin-bottom:14px; }
+input[type=text] { width:100%; padding:13px; background:#2a2a2a; border:1px solid #444; color:#f8f8f8; font-size:15px; border-radius:5px; margin-bottom:14px; }
 
 /* Improved dropdown appearance */
 .select-wrap { position:relative; margin-bottom:14px; }
-.custom-select { width:100%; padding:13px; background:linear-gradient(180deg,#2b2b2b,#232323); border:1px solid #444; color:#fff; font-size:15px; border-radius:8px; appearance:none; -webkit-appearance:none; -moz-appearance:none; cursor:pointer; }
+.custom-select { width:100%; padding:13px; background:linear-gradient(180deg,#2b2b2b,#232323); border:1px solid #444; color:#f5f3f3; font-size:15px; border-radius:8px; appearance:none; -webkit-appearance:none; -moz-appearance:none; cursor:pointer; }
 .custom-select:focus { outline:2px solid rgba(240,173,78,0.12); box-shadow:0 0 0 4px rgba(240,173,78,0.04); }
-.select-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#cfcfcf; pointer-events:none; font-size:12px; }
+.select-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#050000; pointer-events:none; font-size:12px; }
 
-.btn  { width:100%; padding:13px; color:#fff; border:none; font-size:16px; font-weight:bold; border-radius:5px; cursor:pointer; margin-bottom:8px; }
+/* Try to darken option list where supported (Firefox honors this; Chrome/Edge use native UI) */
+.custom-select option { background:#0f0f0f; color:#fff; }
+
+/* Small vendor tweaks for arrow on Windows */
+.custom-select::-ms-expand { filter: brightness(0.9); }
+.custom-select::-webkit-text-fill-color { color: #fff; }
+
+.btn  { width:100%; padding:13px; color:#180e0e; border:none; font-size:16px; font-weight:bold; border-radius:5px; cursor:pointer; margin-bottom:8px; }
 .blue { background:#0275d8; }
 .grey { background:#444; }
 .red  { background:#c0392b; margin-top:8px; }
