@@ -3,11 +3,11 @@
 declare(strict_types=1);
 date_default_timezone_set('Asia/Manila');
 
-$step            = (int)($_POST['step'] ?? 1);
-$currentLocation = htmlspecialchars(trim($_POST['current_location'] ?? ''));
-$destination     = htmlspecialchars(trim($_POST['destination'] ?? ''));
-$selectedOption  = $_POST['selected_option'] ?? null;
-$simulatedHour   = $_POST['simulated_hour'] ?? '';
+$step            = (int)($_GET['step'] ?? 1);
+$currentLocation = htmlspecialchars(trim($_GET['current_location'] ?? ''));
+$destination     = htmlspecialchars(trim($_GET['destination'] ?? ''));
+$selectedOption  = $_GET['selected_option'] ?? null;
+$simulatedHour   = $_GET['simulated_hour'] ?? '';
 
 if ($simulatedHour !== '') {
     $currentHour  = (int)$simulatedHour;
