@@ -287,3 +287,5 @@ input:checked + .slider:before {
 body.light-mode .slider {
     background-color: #e1e4e8;
 }
+
+
