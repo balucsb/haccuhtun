@@ -78,7 +78,14 @@ function hidden(string $name, string $val): string {
 <form method="POST">
     <?= hidden('step','2') ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Your Current Location</label>
-    <input type="text" name="current_location" placeholder="e.g. IT Park, Mandaue" required autofocus>
+    <div class="select-wrap">
+        <select name="current_location" class="custom-select" required autofocus>
+            <option value="" <?= $currentLocation==='' ? 'selected' : '' ?>>Choose location...</option>
+            <option value="It Park" <?= $currentLocation==='It Park' ? 'selected' : '' ?>>IT Park</option>
+            <option value="Mandaue" <?= $currentLocation==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
+            <option value="Colon" <?= $currentLocation==='Colon' ? 'selected' : '' ?>>Colon</option>
+        </select>
+    </div>
     <button class="btn blue" type="submit">Next →</button>
     <p class="hint">Supported: IT Park · Colon · Mandaue</p>
 </form>
@@ -88,7 +95,14 @@ function hidden(string $name, string $val): string {
 <form method="POST">
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Destination</label>
-    <input type="text" name="destination" placeholder="e.g. Colon, IT Park" required autofocus>
+    <div class="select-wrap">
+        <select name="destination" class="custom-select" required autofocus>
+            <option value="" <?= $destination==='' ? 'selected' : '' ?>>Choose destination...</option>
+            <option value="It Park" <?= $destination==='It Park' ? 'selected' : '' ?>>IT Park</option>
+            <option value="Mandaue" <?= $destination==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
+            <option value="Colon" <?= $destination==='Colon' ? 'selected' : '' ?>>Colon</option>
+        </select>
+    </div>
     <button class="btn blue" type="submit">Find Routes →</button>
 </form>
 
