@@ -103,6 +103,7 @@ function hidden(string $name, string $val): string {
             <option value="It Park" <?= $currentLocation==='It Park' ? 'selected' : '' ?>>IT Park</option>
             <option value="Mandaue" <?= $currentLocation==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
             <option value="Colon" <?= $currentLocation==='Colon' ? 'selected' : '' ?>>Colon</option>
+                    <option value="Talisay" <?= $currentLocation==='Talisay' ? 'selected' : '' ?>>Talisay</option>
         </select>
     </div>
     <button class="btn blue" type="submit">Next →</button>
@@ -141,6 +142,11 @@ function hidden(string $name, string $val): string {
     <?= $destination==='Colon' ? 'selected' : '' ?>
     <?= $currentLocation==='Colon' ? 'disabled' : '' ?>>
     Colon <?= $currentLocation==='Colon' ? '(Current Location)' : '' ?>
+</option>
+<option value="Talisay"
+    <?= $destination==='Talisay' ? 'selected' : '' ?>
+    <?= $currentLocation==='Talisay' ? 'disabled' : '' ?>>
+    Talisay <?= $currentLocation==='Talisay' ? '(Current Location)' : '' ?>
 </option>
         </select>
     </div>

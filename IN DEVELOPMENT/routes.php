@@ -121,4 +121,80 @@ $routeDatabase = [
             'photo'  => 'images/image9.jpg',
         ],
     ],
+    'Colon-Talisay' => [
+
+    [
+        'id' => 'opt1',
+        'map_color' => '#5cb85c',
+        'title' => 'Mango Jeep Terminal (Direct)',
+        'tag'   => 'Direct • 1 ride',
+        'desc'  => 'Colon → Talisay via Mango Jeep Terminal',
+        'normal' => [
+            'time' => '45 mins',
+            'fare' => '₱18',
+            'wait' => '10–15 mins',
+            'status' => '🟢 Direct Route'
+        ],
+        'rush' => [
+            'time' => '70 mins',
+            'fare' => '₱18',
+            'wait' => '25–35 mins',
+            'status' => '🔴 Heavy Traffic'
+        ],
+        'stops' => ['Colon', 'Mango Jeep Terminal', 'Talisay'],
+        'photo' => 'images/mango_talisay.jpg',
+    ],
+
+    [
+        'id' => 'opt2',
+        'map_color' => '#0275d8',
+        'title' => '41D + Tabunok + Tricycle',
+        'tag'   => 'Transfer • 3 rides',
+        'desc'  => 'Colon → Tabunok → Tricycle → Talisay',
+        'normal' => [
+            'time' => '60 mins',
+            'fare' => '₱35',
+            'wait' => '15–20 mins',
+            'status' => '🟡 Moderate Transfer'
+        ],
+        'rush' => [
+            'time' => '90 mins',
+            'fare' => '₱35',
+            'wait' => '30–45 mins',
+            'status' => '🔴 Slow + Queue'
+        ],
+        'stops' => [
+            'Colon',
+            '41D Jeep',
+            'Gaisano Tabunok ⇄',
+            'Tricycle Stand',
+            'Talisay'
+        ],
+        'photo' => 'images/tabunok_talisay.jpg',
+    ],
+
+    [
+        'id' => 'opt3',
+        'map_color' => '#f0ad4e',
+        'title' => 'Angkas / Habal-Habal',
+        'tag'   => 'Fastest • 1 ride',
+        'desc'  => 'Door-to-door motorcycle bypass (Colon → Talisay)',
+        'normal' => [
+            'time' => '25 mins',
+            'fare' => '₱130',
+            'wait' => '3–5 mins',
+            'status' => '🟢 Fastest Option'
+        ],
+        'rush' => [
+            'time' => '40 mins',
+            'fare' => '₱160',
+            'wait' => '8–15 mins',
+            'status' => '🔴 Surge Pricing'
+        ],
+        'stops' => ['Colon', 'Talisay'],
+        'photo' => 'images/angkas_talisay.jpg',
+    ],
+
+],
 ];
+        
