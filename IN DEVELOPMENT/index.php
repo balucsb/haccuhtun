@@ -53,15 +53,15 @@ function hidden(string $name, string $val): string {
 </head>
 <body>
 
-<h1 class="app-logo">
-    <span class="al">AL</span><span class="tipid">TIPID</span>
-</h1>
-
-<?php if (!empty($_SESSION['user'])): ?>
-    <div class="account">Signed in as <strong><?= htmlspecialchars($_SESSION['user']) ?></strong>
-        <a href="logout.php" class="btn small red" style="display:inline-block;margin-left:12px;">Logout</a>
-    </div>
-<?php endif; ?>
+<div class="top-header">
+    <h1 class="app-logo">
+        <span class="al">AL</span><span class="tipid">TIPID</span>
+    </h1>
+    
+    <?php if (!empty($_SESSION['user'])): ?>
+        <a href="logout.php" class="btn-logout">Logout</a>
+    <?php endif; ?>
+</div>
 
 <div class="clock">
     <span><?= $currentTimeString ?> &nbsp;<?= $currentWeather ?></span>
@@ -72,7 +72,7 @@ function hidden(string $name, string $val): string {
 
 <!-- Debug -->
 <div class="debug">
-    <form method="POST" style="display:contents;">
+    <form method="GET" style="display:contents;">
         <?= hidden('step', (string)$step) ?>
         <?= hidden('current_location', $currentLocation) ?>
         <?= hidden('destination', $destination) ?>
@@ -90,7 +90,7 @@ function hidden(string $name, string $val): string {
 
 <?php if ($step === 1): ?>
 <!-- ── STEP 1 ── -->
-<form method="POST">
+<form method="GET">
     <?= hidden('step','2') ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Your Current Location</label>
     <div class="select-wrap">
@@ -107,7 +107,7 @@ function hidden(string $name, string $val): string {
 
 <?php elseif ($step === 2): ?>
 <!-- ── STEP 2 ── -->
-<form method="POST">
+<form method="GET">
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Destination</label>
     <div class="select-wrap">
@@ -125,7 +125,7 @@ function hidden(string $name, string $val): string {
 <!-- ── STEP 3 ── -->
 <h2><?= $locKey ?> → <?= $destKey ?></h2>
 
-<form method="POST">
+<form method="GET">
     <?= hidden('step','4') ?><?= hidden('current_location',$currentLocation) ?>
     <?= hidden('destination',$destination) ?><?= hidden('simulated_hour',$simulatedHour) ?>
 
@@ -155,7 +155,7 @@ function hidden(string $name, string $val): string {
     <?php endforeach; ?>
 </form>
 
-<form method="POST">
+<form method="GET">
     <?= hidden('step','1') ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <button class="btn red" type="submit">Start Over</button>
 </form>
@@ -253,12 +253,12 @@ function hidden(string $name, string $val): string {
     <strong style="color:#ccc;">Confidence:</strong> <?= $confidence ?>
 </div>
 
-<form method="POST">
+<form method="GET">
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?>
     <?= hidden('destination',$destination) ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <button class="btn grey" type="submit">← Back</button>
 </form>
-<form method="POST">
+<form method="GET">
     <?= hidden('step','1') ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <button class="btn red" type="submit">New Trip</button>
 </form>
