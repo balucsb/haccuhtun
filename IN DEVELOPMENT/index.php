@@ -46,7 +46,9 @@ function hidden(string $name, string $val): string {
 </head>
 <body>
 
-<h1>🚌 ALTipid</h1>
+<h1 class="app-logo">
+    <span class="al">AL</span><span class="tipid">TIPID</span>
+</h1>
 
 <div class="clock">
     <span><?= $currentTimeString ?> &nbsp;<?= $currentWeather ?></span>
