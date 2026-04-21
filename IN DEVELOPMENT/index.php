@@ -58,9 +58,13 @@ function hidden(string $name, string $val): string {
         <span class="al">AL</span><span class="tipid">TIPID</span>
     </h1>
     
-    <?php if (!empty($_SESSION['user'])): ?>
-        <a href="logout.php" class="btn-logout">Logout</a>
-    <?php endif; ?>
+    <div class="header-actions">
+        <button id="theme-toggle" class="btn-theme" title="Toggle Light/Dark Mode">🌓</button>
+
+        <?php if (!empty($_SESSION['user'])): ?>
+            <a href="logout.php" class="btn-logout">Logout</a>
+        <?php endif; ?>
+    </div>
 </div>
 
 <div class="clock">
@@ -264,5 +268,27 @@ function hidden(string $name, string $val): string {
 </form>
 
 <?php endif; ?>
+<script>
+    const themeBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Check for saved user preference on load
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'light') {
+        body.classList.add('light-mode');
+    }
+
+    // Toggle theme on click
+    themeBtn.addEventListener('click', () => {
+        body.classList.toggle('light-mode');
+        
+        // Save the preference
+        if (body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+</script>
 </body>
 </html>
