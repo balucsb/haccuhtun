@@ -188,17 +188,43 @@ function hidden(string $name, string $val): string {
 </div>
 
 <!-- Details -->
-<div class="box">
-    <h3><?= $sel['title'] ?> &nbsp;<span style="font-size:11px;color:#888;font-weight:normal;"><?= $sel['tag'] ?></span></h3>
-    <strong>From:</strong> <?= $locKey ?> &nbsp; <strong>To:</strong> <?= $destKey ?><br>
-    <strong>Time:</strong> <?= $selData['time'] ?> &nbsp; <strong>Fare:</strong> <?= $selData['fare'] ?><br>
-    <strong>Wait:</strong> <?= $selData['wait'] ?> &nbsp; <strong>Status:</strong> <?= $selData['status'] ?>
+<div class="box" style="margin-bottom: 12px; padding-bottom: 12px;">
+    <h3 style="margin-bottom: 5px; border-bottom: none; padding-bottom: 0;"><?= $sel['title'] ?></h3>
+    <div style="font-size: 12px; color: #aaa;">
+        <?= $locKey ?> ➔ <?= $destKey ?> &nbsp;|&nbsp; <?= $sel['tag'] ?><br>
+        <strong style="color:#fff; margin-top: 4px; display:inline-block;">Status:</strong> <?= $selData['status'] ?>
+    </div>
+</div>
+
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="m-label">TRAVEL TIME</div>
+        <div class="m-value"><?= (int)filter_var($selData['time'], FILTER_SANITIZE_NUMBER_INT) ?></div>
+        <div class="m-sub">minutes</div>
+    </div>
+    
+    <div class="metric-card active-metric">
+        <div class="m-label">FARE</div>
+        <div class="m-value fare-text"><?= $selData['fare'] ?></div>
+        <div class="m-sub"><?= $isRushHour ? 'rush hour' : 'regular' ?></div>
+    </div>
+    
+    <div class="metric-card">
+        <div class="m-label">WAIT</div>
+        <?php 
+            // Strips out extra text so multi-number waits like "25-35" fit perfectly
+            $cleanWait = str_replace(['mins', 'min', ' ', 'Hr+', 'hr+'], '', $selData['wait']);
+            if (empty($cleanWait)) $cleanWait = "60+"; 
+        ?>
+        <div class="m-value small-val"><?= $cleanWait ?></div>
+        <div class="m-sub"><?= strpos(strtolower($selData['wait']), 'hr') !== false ? 'hour+' : 'mins' ?> at stop</div>
+    </div>
 </div>
 
 <!-- Savings -->
 <?php if ($daily > 0): ?>
 <div class="box green">
-    <strong>💰 Savings</strong><br>
+    <strong>You're saving both time and money!</strong><br>
     <?php if ($cheaper): ?>
         Save <strong>₱<?= $daily ?>/day</strong> — ₱<?= $weekly ?>/week · ₱<?= $monthly ?>/month<br>
         <span style="font-size:12px;opacity:0.8;">Trade-off: +<?= $timeSaved ?> mins longer per trip.</span>
