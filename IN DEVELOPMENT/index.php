@@ -42,7 +42,7 @@ function hidden(string $name, string $val): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALTipid</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -117,8 +117,15 @@ function hidden(string $name, string $val): string {
     <?= hidden('destination',$destination) ?><?= hidden('simulated_hour',$simulatedHour) ?>
 
     <?php foreach ($availableRoutes as $r):
-        $d = $isRushHour ? $r['rush'] : $r['normal']; ?>
-    <button type="submit" name="selected_option" value="<?= $r['id'] ?>" class="card">
+        $d = $isRushHour ? $r['rush'] : $r['normal']; 
+        
+        // Auto-detect status color from the emoji
+        $statusClass = '';
+        if (strpos($d['status'], '🟢') !== false) $statusClass = 'status-green';
+        elseif (strpos($d['status'], '🟡') !== false) $statusClass = 'status-yellow';
+        elseif (strpos($d['status'], '🔴') !== false) $statusClass = 'status-red';
+    ?>
+    <button type="submit" name="selected_option" value="<?= $r['id'] ?>" class="card <?= $statusClass ?>">
         <div class="card-head">
             <span class="card-dot" style="background:<?= $r['map_color'] ?>;"></span>
             <span class="card-title"><?= $r['title'] ?></span>
