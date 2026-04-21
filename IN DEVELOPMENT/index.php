@@ -1,4 +1,9 @@
 <?php
+session_start();
+// Require login for prototype
+if (empty($_SESSION['logged_in'])) {
+    header('Location: login.php'); exit;
+}
 require_once 'config.php';
 require_once 'routes.php';
 

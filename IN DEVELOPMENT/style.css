@@ -111,3 +111,11 @@ input[type=text] { width:100%; padding:13px; background:#2a2a2a; border:1px soli
 .s-xfer  { font-size:9px; color:#f0ad4e; background:#333; padding:1px 4px; border-radius:2px; margin-top:2px; white-space:nowrap; }
 
 p.hint { font-size:12px; color:#666; margin:6px 0 0; }
+
+/* Login page styles */
+.login-wrap { max-width:420px; margin:48px auto; padding:18px; background:#121212; border-radius:10px; border:1px solid #222; }
+.login-wrap h1 { margin:0 0 12px; font-size:20px; color:#f0ad4e; }
+.login-form label { font-weight:bold; margin-top:8px; display:block; }
+.login-form input { width:100%; padding:10px; margin-bottom:10px; background:#1b1b1b; border:1px solid #333; color:#fff; border-radius:6px; }
+.login-form .btn { padding:10px; }
+
