@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 date_default_timezone_set('Asia/Manila');
 
-// 1. --- STATE MANAGEMENT (Now tracks simulated time) ---
+// 1. --- STATE MANAGEMENT ---
 $step = (int)($_POST['step'] ?? 1);
 $currentLocation = htmlspecialchars(trim($_POST['current_location'] ?? ''));
 $destination = htmlspecialchars(trim($_POST['destination'] ?? ''));
@@ -32,18 +32,22 @@ if ($isRushHour) {
     $statusText = "PEAK RUSH HOUR";
     $insightMessages = [
         "opt1" => "👉 “SMART PIVOT: Spend a bit more for Option 1. Traditional routes currently have a 45-min wait time.”",
-        "opt2" => "👉 “WARNING: Option 2 is cheaper, but you will stand in line for 40+ mins right now.”"
+        "opt2" => "👉 “WARNING: Option 2 is cheaper, but you will stand in line for 40+ mins right now.”",
+        "opt3" => "👉 “HYBRID DISKARTE: Escaping the choke-point via motorcycle saves you an hour, though it costs more.”",
+        "opt4" => "👉 “AVOID: Traditional single-rides are heavily gridlocked. Look for multi-modal transfers.”"
     ];
 } else {
     $statusColor = "#5cb85c"; // Green
     $statusText = "NORMAL TRAFFIC";
     $insightMessages = [
         "opt1" => "👉 “FASTEST: Spend slightly more to arrive ~10 mins earlier with aircon.”",
-        "opt2" => "👉 “BEST VALUE: You save money by taking Option 2. Traffic is light, so wait times are short!”"
+        "opt2" => "👉 “BEST VALUE: You save money by taking Option 2. Traffic is light, so wait times are short!”",
+        "opt3" => "👉 “CONVENIENCE: Premium multi-modal route. Fast but expensive.”",
+        "opt4" => "👉 “CHEAPEST: The traditional route flows well right now. Save your budget.”"
     ];
 }
 
-// 3. --- DYNAMIC ROUTE DATABASE ---
+// 3. --- EXPANDED DYNAMIC ROUTE DATABASE ---
 $locKey = ucwords(strtolower($currentLocation));
 $destKey = ucwords(strtolower($destination));
 $routeSearchKey = $locKey . "-" . $destKey;
@@ -51,7 +55,7 @@ $routeSearchKey = $locKey . "-" . $destKey;
 $routeDatabase = [
     "It Park-Colon" => [
         [
-            "id" => "opt1", "title" => "Option 1 – 17B Modern Jeep (Direct)",
+            "id" => "opt1", "title" => "Option 1 – 17B Modern Jeep (Direct via Capitol)",
             "normal" => ["time" => "40 mins", "fare" => "₱20", "wait" => "10–15 mins", "status" => "🟢 Flowing"],
             "rush"   => ["time" => "75 mins", "fare" => "₱20", "wait" => "45+ mins", "status" => "🔴 Gridlocked at Escario"],
             "rides"  => "1 ride"
@@ -61,6 +65,18 @@ $routeDatabase = [
             "normal" => ["time" => "35 mins", "fare" => "₱35", "wait" => "5 mins", "status" => "🟢 Fast Transfers"],
             "rush"   => ["time" => "50 mins", "fare" => "₱35", "wait" => "15–20 mins", "status" => "🟡 Moderate Lines"],
             "rides"  => "2 rides"
+        ],
+        [
+            "id" => "opt3", "title" => "Option 3 – Angkas to Fuente + BRT Bus",
+            "normal" => ["time" => "25 mins", "fare" => "₱75", "wait" => "2 mins", "status" => "🟢 Fastest Route"],
+            "rush"   => ["time" => "35 mins", "fare" => "₱95", "wait" => "5 mins", "status" => "🟢 BRT Bypass Active"],
+            "rides"  => "2 rides (Motorcycle + Bus)"
+        ],
+        [
+            "id" => "opt4", "title" => "Option 4 – 17C Traditional (Direct via Ramos)",
+            "normal" => ["time" => "45 mins", "fare" => "₱15", "wait" => "15 mins", "status" => "🟢 Flowing"],
+            "rush"   => ["time" => "80 mins", "fare" => "₱15", "wait" => "50+ mins", "status" => "🔴 Severe Wait Times"],
+            "rides"  => "1 ride"
         ]
     ],
     "Mandaue-Colon" => [
@@ -72,9 +88,15 @@ $routeDatabase = [
         ],
         [
             "id" => "opt2", "title" => "Option 2 – 01K Traditional + BRT Bus",
-            "normal" => ["time" => "40 mins", "fare" => "₱29", "wait" => "5 mins", "status" => "🟢 Fast"],
+            "normal" => ["time" => "40 mins", "fare" => "₱29", "wait" => "5 mins", "status" => "🟢 Fast Transfers"],
             "rush"   => ["time" => "55 mins", "fare" => "₱29", "wait" => "15 mins", "status" => "🟢 BRT Bypass Active"],
             "rides"  => "2 rides"
+        ],
+        [
+            "id" => "opt3", "title" => "Option 3 – MyBus (SM City to Compania Maritima)",
+            "normal" => ["time" => "30 mins", "fare" => "₱30", "wait" => "20 mins", "status" => "🟢 Fixed Schedule"],
+            "rush"   => ["time" => "45 mins", "fare" => "₱30", "wait" => "20 mins", "status" => "🟡 Aircon / Standing Only"],
+            "rides"  => "1 ride + 10 min Walk"
         ]
     ],
     "Mandaue-It Park" => [
@@ -89,6 +111,12 @@ $routeDatabase = [
             "normal" => ["time" => "15 mins", "fare" => "₱70", "wait" => "2 mins", "status" => "🟢 Fast"],
             "rush"   => ["time" => "25 mins", "fare" => "₱150", "wait" => "10 mins", "status" => "🔴 SURGE PRICING"],
             "rides"  => "1 ride"
+        ],
+        [
+            "id" => "opt3", "title" => "Option 3 – 20A/20B Jeep + 17B Jeep (Transfer Ayala)",
+            "normal" => ["time" => "45 mins", "fare" => "₱30", "wait" => "10 mins", "status" => "🟡 Moderate"],
+            "rush"   => ["time" => "65 mins", "fare" => "₱30", "wait" => "25 mins", "status" => "🟡 Long Ayala Queues"],
+            "rides"  => "2 rides"
         ]
     ]
 ];
