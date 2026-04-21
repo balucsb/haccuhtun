@@ -1,20 +1,30 @@
 <?php
 declare(strict_types=1);
 
-// Set timezone to Cebu/Manila
 date_default_timezone_set('Asia/Manila');
 
-// 1. --- STATE MANAGEMENT ---
+// 1. --- STATE MANAGEMENT (Now tracks simulated time) ---
 $step = (int)($_POST['step'] ?? 1);
 $currentLocation = htmlspecialchars(trim($_POST['current_location'] ?? ''));
 $destination = htmlspecialchars(trim($_POST['destination'] ?? ''));
 $selectedOption = $_POST['selected_option'] ?? null;
+$simulatedHour = $_POST['simulated_hour'] ?? '';
 
-// 2. --- TIME & RUSH HOUR LOGIC ---
-$currentTimeString = date('h:i A');
-$currentHour = (int)date('H'); // 0-23 format
+// 2. --- TIME & RUSH HOUR LOGIC (With Debug Override) ---
+if ($simulatedHour !== '') {
+    // Use the debug time
+    $currentHour = (int)$simulatedHour;
+    $amPm = $currentHour >= 12 ? 'PM' : 'AM';
+    $displayHour = $currentHour % 12;
+    $displayHour = $displayHour ? $displayHour : 12; // Convert 0 to 12
+    $currentTimeString = "🛠️ DEBUG: " . $displayHour . ":00 " . $amPm;
+} else {
+    // Use the real live system time
+    $currentTimeString = date('h:i A');
+    $currentHour = (int)date('H'); 
+}
 
-// Peak Hours: 7 AM - 9 AM, and 5 PM - 8 PM
+// Peak Hours: 7 AM - 9 AM, and 5 PM - 8 PM (17-20)
 $isRushHour = ($currentHour >= 7 && $currentHour <= 9) || ($currentHour >= 17 && $currentHour <= 20);
 
 if ($isRushHour) {
@@ -34,7 +44,6 @@ if ($isRushHour) {
 }
 
 // 3. --- DYNAMIC ROUTE DATABASE ---
-// Normalizing input to match array keys (e.g., "IT Park" to "It Park")
 $locKey = ucwords(strtolower($currentLocation));
 $destKey = ucwords(strtolower($destination));
 $routeSearchKey = $locKey . "-" . $destKey;
@@ -84,10 +93,8 @@ $routeDatabase = [
     ]
 ];
 
-// Fetch routes or use fallback if they type an unmapped location
 $availableRoutes = $routeDatabase[$routeSearchKey] ?? $routeDatabase["It Park-Colon"]; 
 
-// Find specific selected route details for Step 4
 $selectedRouteDetails = null;
 $selectedRouteData = null;
 if ($selectedOption) {
@@ -100,7 +107,6 @@ if ($selectedOption) {
     }
 }
 
-// Fallback if someone reaches Step 4 without a valid selection
 if ($step === 4 && !$selectedRouteDetails) {
     $step = 3; 
 }
@@ -118,37 +124,23 @@ if ($step === 4 && !$selectedRouteDetails) {
         h2 { font-size: 18px; color: #5cb85c; }
         h3 { font-size: 20px; color: #fff; margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
         
-        .system-clock { font-size: 14px; color: #ccc; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333; }
+        .system-clock { font-size: 14px; color: #ccc; margin-bottom: 10px; padding-bottom: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
         .badge { padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 12px; color: #fff; }
         
+        /* Debug Panel Styles */
+        .debug-panel { background: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #555; }
+        .debug-panel select { width: 65%; padding: 8px; background: #222; color: #fff; border: 1px solid #444; border-radius: 3px; }
+        .debug-panel button { width: 30%; padding: 8px; background: #e6a23c; color: #000; border: none; font-weight: bold; border-radius: 3px; cursor: pointer; }
+        
         label { display: block; font-size: 16px; margin-bottom: 8px; font-weight: bold; }
-        input[type="text"] { 
-            width: 100%; padding: 15px; margin-bottom: 20px; 
-            background: #333; border: 1px solid #555; color: #fff; 
-            font-size: 16px; border-radius: 5px;
-        }
-        .btn-primary { 
-            width: 100%; padding: 15px; background: #0275d8; 
-            color: #fff; border: none; font-size: 18px; font-weight: bold; 
-            border-radius: 5px; cursor: pointer; margin-bottom: 10px;
-        }
+        input[type="text"] { width: 100%; padding: 15px; margin-bottom: 20px; background: #333; border: 1px solid #555; color: #fff; font-size: 16px; border-radius: 5px; }
+        .btn-primary { width: 100%; padding: 15px; background: #0275d8; color: #fff; border: none; font-size: 18px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-bottom: 10px; }
         .btn-secondary { background: #555; }
         .restart { background: #d9534f; margin-top: 20px; }
         
-        .card-btn { 
-            display: block; width: 100%; text-align: left;
-            background: #2a2a2a; border: 2px solid #444; color: #fff;
-            padding: 15px; margin-bottom: 15px; border-radius: 5px; 
-            cursor: pointer; font-size: 14px; line-height: 1.5;
-        }
+        .card-btn { display: block; width: 100%; text-align: left; background: #2a2a2a; border: 2px solid #444; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; font-size: 14px; line-height: 1.5; }
         .card-title { font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #fff; }
-        
-        .insight-box { 
-            background: #e6a23c; color: #000; 
-            padding: 20px; font-weight: bold; font-size: 16px; border-radius: 5px; 
-            margin-bottom: 25px; text-align: center; border: 2px dashed #b8860b;
-        }
-        
+        .insight-box { background: #e6a23c; color: #000; padding: 20px; font-weight: bold; font-size: 16px; border-radius: 5px; margin-bottom: 25px; text-align: center; border: 2px dashed #b8860b; }
         .details-panel { background: #2a2a2a; padding: 20px; border-radius: 5px; margin-bottom: 20px; line-height: 1.8; }
     </style>
 </head>
@@ -157,15 +149,32 @@ if ($step === 4 && !$selectedRouteDetails) {
     <h1>Sugbo-Save MVP</h1>
     
     <div class="system-clock">
-        Live Time: <strong><?= $currentTimeString ?></strong> 
-        <span class="badge" style="background-color: <?= $statusColor ?>;">
-            <?= $statusText ?>
-        </span>
+        <span><?= $currentTimeString ?></span> 
+        <span class="badge" style="background-color: <?= $statusColor ?>;"><?= $statusText ?></span>
+    </div>
+
+    <div class="debug-panel">
+        <form method="POST" style="margin: 0; display: flex; justify-content: space-between;">
+            <input type="hidden" name="step" value="<?= $step ?>">
+            <input type="hidden" name="current_location" value="<?= $currentLocation ?>">
+            <input type="hidden" name="destination" value="<?= $destination ?>">
+            <input type="hidden" name="selected_option" value="<?= htmlspecialchars((string)$selectedOption) ?>">
+
+            <select name="simulated_hour">
+                <option value="" <?= $simulatedHour === '' ? 'selected' : '' ?>>-- Live System Time --</option>
+                <option value="8" <?= $simulatedHour === '8' ? 'selected' : '' ?>>08:00 AM (Rush Hour)</option>
+                <option value="11" <?= $simulatedHour === '11' ? 'selected' : '' ?>>11:00 AM (Normal)</option>
+                <option value="18" <?= $simulatedHour === '18' ? 'selected' : '' ?>>06:00 PM (Rush Hour)</option>
+                <option value="22" <?= $simulatedHour === '22' ? 'selected' : '' ?>>10:00 PM (Normal)</option>
+            </select>
+            <button type="submit">Set Time</button>
+        </form>
     </div>
 
     <?php if ($step === 1): ?>
         <form method="POST">
             <input type="hidden" name="step" value="2">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
             <label>Where are you right now?</label>
             <input type="text" name="current_location" placeholder="e.g. IT Park" required autofocus>
             <button type="submit" class="btn-primary">Next</button>
@@ -176,6 +185,7 @@ if ($step === 4 && !$selectedRouteDetails) {
         <form method="POST">
             <input type="hidden" name="step" value="3">
             <input type="hidden" name="current_location" value="<?= $currentLocation ?>">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
             <label>Where are you going?</label>
             <input type="text" name="destination" placeholder="e.g. Colon" required autofocus>
             <button type="submit" class="btn-primary">Find Routes</button>
@@ -189,6 +199,7 @@ if ($step === 4 && !$selectedRouteDetails) {
             <input type="hidden" name="step" value="4">
             <input type="hidden" name="current_location" value="<?= $currentLocation ?>">
             <input type="hidden" name="destination" value="<?= $destination ?>">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
 
             <?php foreach ($availableRoutes as $route): 
                 $data = $isRushHour ? $route['rush'] : $route['normal'];
@@ -206,6 +217,7 @@ if ($step === 4 && !$selectedRouteDetails) {
 
         <form method="POST">
             <input type="hidden" name="step" value="1">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
             <button type="submit" class="btn-primary restart">Start Over</button>
         </form>
 
@@ -231,11 +243,13 @@ if ($step === 4 && !$selectedRouteDetails) {
             <input type="hidden" name="step" value="3">
             <input type="hidden" name="current_location" value="<?= $currentLocation ?>">
             <input type="hidden" name="destination" value="<?= $destination ?>">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
             <button type="submit" class="btn-primary btn-secondary">← Back to Options</button>
         </form>
 
         <form method="POST">
             <input type="hidden" name="step" value="1">
+            <input type="hidden" name="simulated_hour" value="<?= $simulatedHour ?>">
             <button type="submit" class="btn-primary restart">Plan New Trip</button>
         </form>
 
