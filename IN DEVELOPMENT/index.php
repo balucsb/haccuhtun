@@ -77,7 +77,7 @@ function hidden(string $name, string $val): string {
 <!-- ── STEP 1 ── -->
 <form method="POST">
     <?= hidden('step','2') ?><?= hidden('simulated_hour',$simulatedHour) ?>
-    <label>Where are you?</label>
+    <label>Your Current Location</label>
     <input type="text" name="current_location" placeholder="e.g. IT Park, Mandaue" required autofocus>
     <button class="btn blue" type="submit">Next →</button>
     <p class="hint">Supported: IT Park · Colon · Mandaue</p>
@@ -87,7 +87,7 @@ function hidden(string $name, string $val): string {
 <!-- ── STEP 2 ── -->
 <form method="POST">
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?><?= hidden('simulated_hour',$simulatedHour) ?>
-    <label>Where to?</label>
+    <label>Destination</label>
     <input type="text" name="destination" placeholder="e.g. Colon, IT Park" required autofocus>
     <button class="btn blue" type="submit">Find Routes →</button>
 </form>
