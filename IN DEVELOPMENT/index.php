@@ -41,12 +41,12 @@ function hidden(string $name, string $val): string {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sugbo-Save</title>
+    <title>ALTipid</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🚌 Sugbo-Save</h1>
+<h1>🚌 ALTipid</h1>
 
 <div class="clock">
     <span><?= $currentTimeString ?> &nbsp;<?= $currentWeather ?></span>
