@@ -1,17 +1,18 @@
 <?php
 declare(strict_types=1);
 
+// Set timezone to Cebu/Manila
 date_default_timezone_set('Asia/Manila');
 
-// State management
+// 1. --- STATE MANAGEMENT ---
 $step = (int)($_POST['step'] ?? 1);
-$currentLocation = htmlspecialchars($_POST['current_location'] ?? '');
-$destination = htmlspecialchars($_POST['destination'] ?? '');
+$currentLocation = htmlspecialchars(trim($_POST['current_location'] ?? ''));
+$destination = htmlspecialchars(trim($_POST['destination'] ?? ''));
 $selectedOption = $_POST['selected_option'] ?? null;
 
-// Time & Rush Hour Logic
+// 2. --- TIME & RUSH HOUR LOGIC ---
 $currentTimeString = date('h:i A');
-$currentHour = (int)date('H');
+$currentHour = (int)date('H'); // 0-23 format
 
 // Peak Hours: 7 AM - 9 AM, and 5 PM - 8 PM
 $isRushHour = ($currentHour >= 7 && $currentHour <= 9) || ($currentHour >= 17 && $currentHour <= 20);
@@ -19,17 +20,88 @@ $isRushHour = ($currentHour >= 7 && $currentHour <= 9) || ($currentHour >= 17 &&
 if ($isRushHour) {
     $statusColor = "#d9534f"; // Red
     $statusText = "PEAK RUSH HOUR";
-    $opt1Message = "👉 “SMART PIVOT: Spend ₱15 more for Option 1. Traditional jeeps currently have a 45-min wait time.”";
-    $opt2Message = "👉 “WARNING: Option 2 saves you ₱15, but you will stand in line for ~40 mins right now.”";
+    $insightMessages = [
+        "opt1" => "👉 “SMART PIVOT: Spend a bit more for Option 1. Traditional routes currently have a 45-min wait time.”",
+        "opt2" => "👉 “WARNING: Option 2 is cheaper, but you will stand in line for 40+ mins right now.”"
+    ];
 } else {
     $statusColor = "#5cb85c"; // Green
     $statusText = "NORMAL TRAFFIC";
-    $opt1Message = "👉 “FASTEST: Spend ₱15 more to arrive ~10 mins earlier with aircon.”";
-    $opt2Message = "👉 “BEST VALUE: You save ₱15 by taking Option 2. Traffic is light, so wait times are short!”";
+    $insightMessages = [
+        "opt1" => "👉 “FASTEST: Spend slightly more to arrive ~10 mins earlier with aircon.”",
+        "opt2" => "👉 “BEST VALUE: You save money by taking Option 2. Traffic is light, so wait times are short!”"
+    ];
 }
 
-// Fallback if someone reaches Step 4 without selecting an option
-if ($step === 4 && !$selectedOption) {
+// 3. --- DYNAMIC ROUTE DATABASE ---
+// Normalizing input to match array keys (e.g., "IT Park" to "It Park")
+$locKey = ucwords(strtolower($currentLocation));
+$destKey = ucwords(strtolower($destination));
+$routeSearchKey = $locKey . "-" . $destKey;
+
+$routeDatabase = [
+    "It Park-Colon" => [
+        [
+            "id" => "opt1", "title" => "Option 1 – 17B Modern Jeep (Direct)",
+            "normal" => ["time" => "40 mins", "fare" => "₱20", "wait" => "10–15 mins", "status" => "🟢 Flowing"],
+            "rush"   => ["time" => "75 mins", "fare" => "₱20", "wait" => "45+ mins", "status" => "🔴 Gridlocked at Escario"],
+            "rides"  => "1 ride"
+        ],
+        [
+            "id" => "opt2", "title" => "Option 2 – CIBUS Bus + 14D Traditional",
+            "normal" => ["time" => "35 mins", "fare" => "₱35", "wait" => "5 mins", "status" => "🟢 Fast Transfers"],
+            "rush"   => ["time" => "50 mins", "fare" => "₱35", "wait" => "15–20 mins", "status" => "🟡 Moderate Lines"],
+            "rides"  => "2 rides"
+        ]
+    ],
+    "Mandaue-Colon" => [
+        [
+            "id" => "opt1", "title" => "Option 1 – 21B Traditional (Direct)",
+            "normal" => ["time" => "45 mins", "fare" => "₱18", "wait" => "10 mins", "status" => "🟡 Moderate"],
+            "rush"   => ["time" => "90 mins", "fare" => "₱18", "wait" => "1 Hr+", "status" => "🔴 Severe Traffic"],
+            "rides"  => "1 ride"
+        ],
+        [
+            "id" => "opt2", "title" => "Option 2 – 01K Traditional + BRT Bus",
+            "normal" => ["time" => "40 mins", "fare" => "₱29", "wait" => "5 mins", "status" => "🟢 Fast"],
+            "rush"   => ["time" => "55 mins", "fare" => "₱29", "wait" => "15 mins", "status" => "🟢 BRT Bypass Active"],
+            "rides"  => "2 rides"
+        ]
+    ],
+    "Mandaue-It Park" => [
+        [
+            "id" => "opt1", "title" => "Option 1 – 22I Traditional (Banilad)",
+            "normal" => ["time" => "30 mins", "fare" => "₱15", "wait" => "10 mins", "status" => "🟢 Flowing"],
+            "rush"   => ["time" => "70 mins", "fare" => "₱15", "wait" => "30+ mins", "status" => "🔴 Ban-Tal Bottleneck"],
+            "rides"  => "1 ride"
+        ],
+        [
+            "id" => "opt2", "title" => "Option 2 – Habal-Habal Bypass",
+            "normal" => ["time" => "15 mins", "fare" => "₱70", "wait" => "2 mins", "status" => "🟢 Fast"],
+            "rush"   => ["time" => "25 mins", "fare" => "₱150", "wait" => "10 mins", "status" => "🔴 SURGE PRICING"],
+            "rides"  => "1 ride"
+        ]
+    ]
+];
+
+// Fetch routes or use fallback if they type an unmapped location
+$availableRoutes = $routeDatabase[$routeSearchKey] ?? $routeDatabase["It Park-Colon"]; 
+
+// Find specific selected route details for Step 4
+$selectedRouteDetails = null;
+$selectedRouteData = null;
+if ($selectedOption) {
+    foreach ($availableRoutes as $route) {
+        if ($route['id'] === $selectedOption) {
+            $selectedRouteDetails = $route;
+            $selectedRouteData = $isRushHour ? $route['rush'] : $route['normal'];
+            break;
+        }
+    }
+}
+
+// Fallback if someone reaches Step 4 without a valid selection
+if ($step === 4 && !$selectedRouteDetails) {
     $step = 3; 
 }
 ?>
@@ -61,7 +133,7 @@ if ($step === 4 && !$selectedOption) {
             border-radius: 5px; cursor: pointer; margin-bottom: 10px;
         }
         .btn-secondary { background: #555; }
-        .restart { background: #d9534f; }
+        .restart { background: #d9534f; margin-top: 20px; }
         
         .card-btn { 
             display: block; width: 100%; text-align: left;
@@ -95,8 +167,9 @@ if ($step === 4 && !$selectedOption) {
         <form method="POST">
             <input type="hidden" name="step" value="2">
             <label>Where are you right now?</label>
-            <input type="text" name="current_location" placeholder="e.g. IT Park Terminal" required autofocus>
+            <input type="text" name="current_location" placeholder="e.g. IT Park" required autofocus>
             <button type="submit" class="btn-primary">Next</button>
+            <p style="font-size:12px; color:#aaa; margin-top:10px;">Supported MVP inputs: IT Park, Colon, Mandaue</p>
         </form>
 
     <?php elseif ($step === 2): ?>
@@ -109,7 +182,7 @@ if ($step === 4 && !$selectedOption) {
         </form>
 
     <?php elseif ($step === 3): ?>
-        <h2>Route: <?= $currentLocation ?> to <?= $destination ?></h2>
+        <h2>Route: <?= ucwords($currentLocation) ?> to <?= ucwords($destination) ?></h2>
         <p style="font-size: 14px; color: #aaa; margin-bottom: 20px;">Select a route to view full details and Diskarte Insights.</p>
 
         <form method="POST">
@@ -117,49 +190,41 @@ if ($step === 4 && !$selectedOption) {
             <input type="hidden" name="current_location" value="<?= $currentLocation ?>">
             <input type="hidden" name="destination" value="<?= $destination ?>">
 
-            <button type="submit" name="selected_option" value="opt1" class="card-btn">
-                <div class="card-title">Option 1 – 17B Modern (Direct)</div>
-                ⏱ <?= $isRushHour ? '65 mins' : '50 mins' ?> | 💸 ₱30<br>
-                ⏳ Wait: 15–25 mins | 🚗 1 ride
-            </button>
-
-            <button type="submit" name="selected_option" value="opt2" class="card-btn">
-                <div class="card-title">Option 2 – 09C Traditional (Combo)</div>
-                ⏱ <?= $isRushHour ? '80 mins' : '40 mins' ?> | 💸 ₱45<br>
-                ⏳ Wait: <?= $isRushHour ? '40+ mins' : '5–10 mins' ?> | 🚗 2 rides
-            </button>
+            <?php foreach ($availableRoutes as $route): 
+                $data = $isRushHour ? $route['rush'] : $route['normal'];
+            ?>
+                <button type="submit" name="selected_option" value="<?= $route['id'] ?>" class="card-btn">
+                    <div class="card-title"><?= $route['title'] ?></div>
+                    ⏱ <strong><?= $data['time'] ?></strong> | 💸 <?= $data['fare'] ?><br>
+                    ⏳ Wait: <?= $data['wait'] ?> | 🚗 <?= $route['rides'] ?><br>
+                    <span style="margin-top: 8px; display: block; color: #ddd;">
+                        Status: <?= $data['status'] ?>
+                    </span>
+                </button>
+            <?php endforeach; ?>
         </form>
 
         <form method="POST">
             <input type="hidden" name="step" value="1">
-            <button type="submit" class="btn-primary restart" style="margin-top: 20px;">Start Over</button>
+            <button type="submit" class="btn-primary restart">Start Over</button>
         </form>
 
     <?php elseif ($step === 4): ?>
         <h2>Route Details</h2>
         
         <div class="insight-box">
-            <?= $selectedOption === 'opt1' ? $opt1Message : $opt2Message ?>
+            <?= $insightMessages[$selectedOption] ?? "👉 Smart Diskarte unlocked." ?>
         </div>
 
         <div class="details-panel">
-            <?php if ($selectedOption === 'opt1'): ?>
-                <h3>Option 1: 17B Modern (Direct)</h3>
-                <strong>From:</strong> <?= $currentLocation ?><br>
-                <strong>To:</strong> <?= $destination ?><br><br>
-                <strong>Travel Time:</strong> <?= $isRushHour ? '65 mins (Heavy Traffic)' : '50 mins' ?><br>
-                <strong>Fare:</strong> ₱30 (Regular) / ₱24 (Discounted)<br>
-                <strong>Est. Wait Time:</strong> 15–25 mins<br>
-                <strong>Vehicles:</strong> 1 Ride (Direct)
-            <?php else: ?>
-                <h3>Option 2: 09C Traditional (2-Ride Combo)</h3>
-                <strong>From:</strong> <?= $currentLocation ?><br>
-                <strong>To:</strong> <?= $destination ?><br><br>
-                <strong>Travel Time:</strong> <?= $isRushHour ? '80 mins (Gridlock)' : '40 mins' ?><br>
-                <strong>Fare:</strong> ₱45 (Regular) / ₱36 (Discounted)<br>
-                <strong>Est. Wait Time:</strong> <?= $isRushHour ? '40+ mins (Crowded)' : '5–10 mins' ?><br>
-                <strong>Vehicles:</strong> 2 Rides (Transfer Required)
-            <?php endif; ?>
+            <h3><?= $selectedRouteDetails['title'] ?></h3>
+            <strong>From:</strong> <?= ucwords($currentLocation) ?><br>
+            <strong>To:</strong> <?= ucwords($destination) ?><br><br>
+            <strong>Travel Time:</strong> <?= $selectedRouteData['time'] ?><br>
+            <strong>Fare:</strong> <?= $selectedRouteData['fare'] ?><br>
+            <strong>Est. Wait Time:</strong> <?= $selectedRouteData['wait'] ?><br>
+            <strong>Vehicles:</strong> <?= $selectedRouteDetails['rides'] ?><br>
+            <strong>Current Status:</strong> <span style="color:#f0ad4e;"><?= $selectedRouteData['status'] ?></span>
         </div>
 
         <form method="POST">
