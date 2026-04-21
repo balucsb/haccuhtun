@@ -1,4 +1,9 @@
 <?php
+session_start();
+// Require login for prototype
+if (empty($_SESSION['logged_in'])) {
+    header('Location: login.php'); exit;
+}
 require_once 'config.php';
 require_once 'routes.php';
 
@@ -42,11 +47,13 @@ function hidden(string $name, string $val): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALTipid</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
-<h1>🚌 ALTipid</h1>
+<h1 class="app-logo">
+    <span class="al">AL</span><span class="tipid">TIPID</span>
+</h1>
 
 <div class="clock">
     <span><?= $currentTimeString ?> &nbsp;<?= $currentWeather ?></span>
@@ -77,8 +84,15 @@ function hidden(string $name, string $val): string {
 <!-- ── STEP 1 ── -->
 <form method="POST">
     <?= hidden('step','2') ?><?= hidden('simulated_hour',$simulatedHour) ?>
-    <label>Where are you?</label>
-    <input type="text" name="current_location" placeholder="e.g. IT Park, Mandaue" required autofocus>
+    <label>Your Current Location</label>
+    <div class="select-wrap">
+        <select name="current_location" class="custom-select" required autofocus>
+            <option value="" <?= $currentLocation==='' ? 'selected' : '' ?>>Choose location...</option>
+            <option value="It Park" <?= $currentLocation==='It Park' ? 'selected' : '' ?>>IT Park</option>
+            <option value="Mandaue" <?= $currentLocation==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
+            <option value="Colon" <?= $currentLocation==='Colon' ? 'selected' : '' ?>>Colon</option>
+        </select>
+    </div>
     <button class="btn blue" type="submit">Next →</button>
     <p class="hint">Supported: IT Park · Colon · Mandaue</p>
 </form>
@@ -87,8 +101,15 @@ function hidden(string $name, string $val): string {
 <!-- ── STEP 2 ── -->
 <form method="POST">
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?><?= hidden('simulated_hour',$simulatedHour) ?>
-    <label>Where to?</label>
-    <input type="text" name="destination" placeholder="e.g. Colon, IT Park" required autofocus>
+    <label>Destination</label>
+    <div class="select-wrap">
+        <select name="destination" class="custom-select" required autofocus>
+            <option value="" <?= $destination==='' ? 'selected' : '' ?>>Choose destination...</option>
+            <option value="It Park" <?= $destination==='It Park' ? 'selected' : '' ?>>IT Park</option>
+            <option value="Mandaue" <?= $destination==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
+            <option value="Colon" <?= $destination==='Colon' ? 'selected' : '' ?>>Colon</option>
+        </select>
+    </div>
     <button class="btn blue" type="submit">Find Routes →</button>
 </form>
 
@@ -101,8 +122,15 @@ function hidden(string $name, string $val): string {
     <?= hidden('destination',$destination) ?><?= hidden('simulated_hour',$simulatedHour) ?>
 
     <?php foreach ($availableRoutes as $r):
-        $d = $isRushHour ? $r['rush'] : $r['normal']; ?>
-    <button type="submit" name="selected_option" value="<?= $r['id'] ?>" class="card">
+        $d = $isRushHour ? $r['rush'] : $r['normal']; 
+        
+        // Auto-detect status color from the emoji
+        $statusClass = '';
+        if (strpos($d['status'], '🟢') !== false) $statusClass = 'status-green';
+        elseif (strpos($d['status'], '🟡') !== false) $statusClass = 'status-yellow';
+        elseif (strpos($d['status'], '🔴') !== false) $statusClass = 'status-red';
+    ?>
+    <button type="submit" name="selected_option" value="<?= $r['id'] ?>" class="card <?= $statusClass ?>">
         <div class="card-head">
             <span class="card-dot" style="background:<?= $r['map_color'] ?>;"></span>
             <span class="card-title"><?= $r['title'] ?></span>
