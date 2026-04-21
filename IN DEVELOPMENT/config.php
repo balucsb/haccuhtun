@@ -6,8 +6,23 @@ date_default_timezone_set('Asia/Manila');
 $step            = (int)($_GET['step'] ?? 1);
 $currentLocation = htmlspecialchars(trim($_GET['current_location'] ?? ''));
 $destination     = htmlspecialchars(trim($_GET['destination'] ?? ''));
+if (!empty($currentLocation) && !empty($destination)) {
+    if (strcasecmp($currentLocation, $destination) === 0) {
+        $error = "You cannot choose your current location as a destination.";
+
+        // Reset destination so it doesn't proceed
+        $destination = '';
+
+        // Force back to step 2 (destination selection)
+        if ($step >= 3) {
+            $step = 2;
+        }
+    }
+}
 $selectedOption  = $_GET['selected_option'] ?? null;
 $simulatedHour   = $_GET['simulated_hour'] ?? '';
+$error = '';
+
 
 if ($simulatedHour !== '') {
     $currentHour  = (int)$simulatedHour;

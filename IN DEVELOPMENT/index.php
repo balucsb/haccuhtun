@@ -58,9 +58,13 @@ function hidden(string $name, string $val): string {
         <span class="al">AL</span><span class="tipid">TIPID</span>
     </h1>
     
-    <?php if (!empty($_SESSION['user'])): ?>
-        <a href="logout.php" class="btn-logout">Logout</a>
-    <?php endif; ?>
+    <div class="header-actions">
+        <button id="theme-toggle" class="btn-theme" title="Toggle Light/Dark Mode">🌓</button>
+
+        <?php if (!empty($_SESSION['user'])): ?>
+            <a href="logout.php" class="btn-logout">Logout</a>
+        <?php endif; ?>
+    </div>
 </div>
 
 <div class="clock">
@@ -108,14 +112,36 @@ function hidden(string $name, string $val): string {
 <?php elseif ($step === 2): ?>
 <!-- ── STEP 2 ── -->
 <form method="GET">
+    <?php if (!empty($error)): ?>
+    <div class="error-message">
+        <?= htmlspecialchars($error) ?>
+    </div>
+<?php endif; ?>
+
     <?= hidden('step','3') ?><?= hidden('current_location',$currentLocation) ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Destination</label>
     <div class="select-wrap">
-        <select name="destination" class="custom-select" required autofocus>
-            <option value="" <?= $destination==='' ? 'selected' : '' ?>>Choose destination...</option>
-            <option value="It Park" <?= $destination==='It Park' ? 'selected' : '' ?>>IT Park</option>
-            <option value="Mandaue" <?= $destination==='Mandaue' ? 'selected' : '' ?>>Mandaue</option>
-            <option value="Colon" <?= $destination==='Colon' ? 'selected' : '' ?>>Colon</option>
+        <select name="destination"
+        class="custom-select <?= !empty($error) ? 'invalid' : '' ?>"
+        required autofocus>
+
+<option value="It Park"
+    <?= $destination==='It Park' ? 'selected' : '' ?>
+    <?= $currentLocation==='It Park' ? 'disabled' : '' ?>>
+    IT Park <?= $currentLocation==='It Park' ? '(Current Location)' : '' ?>
+</option>
+
+<option value="Mandaue"
+    <?= $destination==='Mandaue' ? 'selected' : '' ?>
+    <?= $currentLocation==='Mandaue' ? 'disabled' : '' ?>>
+    Mandaue <?= $currentLocation==='Mandaue' ? '(Current Location)' : '' ?>
+</option>
+
+<option value="Colon"
+    <?= $destination==='Colon' ? 'selected' : '' ?>
+    <?= $currentLocation==='Colon' ? 'disabled' : '' ?>>
+    Colon <?= $currentLocation==='Colon' ? '(Current Location)' : '' ?>
+</option>
         </select>
     </div>
     <button class="btn blue" type="submit">Find Routes →</button>
@@ -264,5 +290,27 @@ function hidden(string $name, string $val): string {
 </form>
 
 <?php endif; ?>
+<script>
+    const themeBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Check for saved user preference on load
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'light') {
+        body.classList.add('light-mode');
+    }
+
+    // Toggle theme on click
+    themeBtn.addEventListener('click', () => {
+        body.classList.toggle('light-mode');
+        
+        // Save the preference
+        if (body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+</script>
 </body>
 </html>
