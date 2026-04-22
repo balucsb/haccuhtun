@@ -2,24 +2,22 @@
 * { box-sizing: border-box; font-family: Arial, sans-serif; }
 body { background: #1a1a1a; color: #fff; margin: 0 auto; padding: 20px; max-width: 480px; }
 
-/* h1 { font-size: 22px; color: #f0ad4e; margin-bottom: 4px; } */
-/* --- ALTipid Logo Branding --- */
 .app-logo { 
     font-size: 36px; 
     font-weight: 900; 
     font-family: 'Arial Black', Impact, sans-serif; 
     text-transform: uppercase; 
     margin: 10px 0 20px 0; 
-    text-shadow: 3px 3px 0px #111; /* Creates the hard drop-shadow effect */
+    text-shadow: 3px 3px 0px #111;
     letter-spacing: 2px;
 }
 .app-logo .al { 
     color: #ffe680;
-    font-size: 60px; /* The pale yellow from your image */
+    font-size: 60px;
 } 
 .app-logo .tipid { 
     color: #1a66cc;
-    font-size: 60px; /* The deep blue from your image */
+    font-size: 60px;
 }
 
 h2 { font-size: 16px; color: #5cb85c; margin-bottom: 12px; }
@@ -35,7 +33,6 @@ h3 { font-size: 16px; color: #fff; margin: 0 0 10px; padding-bottom: 8px; border
 label { display:block; font-size:15px; font-weight:bold; margin-bottom:8px; }
 input[type=text], input[type=password] { width:100%; padding:13px; background:#2a2a2a; border:1px solid #444; color:#f8f8f8; font-size:15px; border-radius:5px; margin-bottom:14px; }
 
-/* --- Top Navigation Header --- */
 .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 10px; }
 
 .top-header .app-logo {
@@ -50,10 +47,8 @@ input[type=text], input[type=password] { width:100%; padding:13px; background:#2
 .custom-select:focus { outline:2px solid rgba(240,173,78,0.12); box-shadow:0 0 0 4px rgba(240,173,78,0.04); }
 .select-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#050000; pointer-events:none; font-size:12px; }
 
-/* Try to darken option list where supported (Firefox honors this; Chrome/Edge use native UI) */
 .custom-select option { background:#0f0f0f; color:#fff; }
 
-/* Small vendor tweaks for arrow on Windows */
 .custom-select::-ms-expand { filter: brightness(0.9); }
 .custom-select::-webkit-text-fill-color { color: #fff; }
 
@@ -62,10 +57,8 @@ input[type=text], input[type=password] { width:100%; padding:13px; background:#2
 .grey { background:#444; }
 .red  { background:#c0392b; margin-top:8px; }
 
-/* Route cards */
 .card { width:100%; text-align:left; background:#222; border:2px solid #333; color:#fff; padding:13px; margin-bottom:10px; border-radius:7px; cursor:pointer; font-size:13px; display:block; transition: all 0.2s ease; }
 
-/* Status Background Colors (Translucent glow) */
 .card.status-green  { background: rgba(39, 174, 96, 0.15); border-color: rgba(39, 174, 96, 0.3); }
 .card.status-green:hover  { background: rgba(39, 174, 96, 0.25); border-color: #27ae60; }
 
@@ -124,7 +117,6 @@ input[type=text], input[type=password] { width:100%; padding:13px; background:#2
 
 p.hint { font-size:12px; color:#666; margin:6px 0 0; }
 
-/* --- Metrics Grid (Step 4 Dashboard) --- */
 .metrics-grid { 
     display: flex; 
     gap: 10px; 
@@ -132,7 +124,7 @@ p.hint { font-size:12px; color:#666; margin:6px 0 0; }
 }
 .metric-card { 
     flex: 1; 
-    background: #2a2a2a; /* Darker navy background from your image */
+    background: #2a2a2a;
     border: 1px solid #2a2c36; 
     border-radius: 12px; 
     padding: 16px 4px; 
@@ -142,7 +134,7 @@ p.hint { font-size:12px; color:#666; margin:6px 0 0; }
     justify-content: center; 
 }
 .metric-card.active-metric { 
-    border-color: #f0ad4e; /* The green highlight border */
+    border-color: #f0ad4e;
 }
 .m-label { 
     font-size: 10px; 
@@ -161,7 +153,7 @@ p.hint { font-size:12px; color:#666; margin:6px 0 0; }
 
 }
 .m-value.fare-text { 
-    color: #f0ad4e; /* Keeps the fare golden/yellow */
+    color: #f0ad4e;
 }
 .m-value.small-val { 
 
@@ -215,21 +207,18 @@ body {
 }
 
 
-/* Container for header actions to align items vertically */
 .header-actions {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Ensure the logout button has a defined height to match */
 .btn-logout {
     padding: 6px 16px;
     height: 34px; /* Fixed height for alignment */
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    /* ... your existing logout styles ... */
 }
 
 /* The Switch Container */
@@ -288,13 +277,11 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-/* Light Mode specific adjustments for the slider background when off */
 body.light-mode .slider {
     background-color: #e1e4e8;
 }
 
 
-/* Default Dark Theme (Current Style) */
 :root {
     --bg-primary: #121212;
     --bg-card: #1e1e1e;
@@ -303,7 +290,7 @@ body.light-mode .slider {
     --border-color: #333333;
 }
 
-/* Light Theme Overrides */
+
 body.light-mode {
     --bg-primary: #f5f7fa;
     --bg-card: #ffffff;
@@ -312,7 +299,6 @@ body.light-mode {
     --border-color: #dddddd;
 }
 
-/* Apply variables to your existing elements */
 body {
     background-color: var(--bg-primary);
     color: var(--text-main);
@@ -361,4 +347,3 @@ option:disabled:hover {
 .custom-select.invalid:hover {
     cursor: not-allowed;
 }
-
