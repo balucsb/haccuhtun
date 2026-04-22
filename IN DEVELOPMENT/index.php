@@ -1,5 +1,5 @@
 <?php
-// Ensure user is signed in for the prototype
+
 if (session_status() === PHP_SESSION_NONE) session_start();
 if (empty($_SESSION['logged_in'])) {
     header('Location: login.php');
@@ -21,22 +21,56 @@ if ($selectedOption) {
 }
 if ($step === 4 && !$sel) $step = 3;
 
-// Savings math
-$daily = $weekly = $monthly = 0; $cheaper = false; $timeSaved = 0;
+// Helper: get average fare from "₱15-₱20"
+function getAverageFare($fareStr) {
+    preg_match_all('/\d+/', $fareStr, $matches);
+    $nums = array_map('intval', $matches[0]);
+
+    if (count($nums) >= 2) {
+        return ($nums[0] + $nums[1]) / 2;
+    }
+    return $nums[0] ?? 0;
+}
+
+// Helper: extract minutes
+function getMinutes($timeStr) {
+    preg_match('/\d+/', $timeStr, $match);
+    return isset($match[0]) ? (int)$match[0] : 0;
+}
+
+$daily = $weekly = $monthly = 0;
+$cheaper = false;
+$timeSaved = 0;
+
 if ($sel) {
+    $sf = getAverageFare($selData['fare']);
+    $st = getMinutes($selData['time']);
+
+    $bestDiff = 0;
+    $bestTimeDiff = 0;
+    $cheaper = false;
+
     foreach ($availableRoutes as $r) {
-        if ($r['id'] !== $selectedOption) {
-            $o    = $isRushHour ? $r['rush'] : $r['normal'];
-            $sf   = (int)filter_var($selData['fare'], FILTER_SANITIZE_NUMBER_INT);
-            $of   = (int)filter_var($o['fare'],       FILTER_SANITIZE_NUMBER_INT);
-            $diff = abs($sf - $of);
-            $daily   = $diff * 2; $weekly = $daily * 5; $monthly = $weekly * 4;
+        if ($r['id'] === $selectedOption) continue;
+
+        $o  = $isRushHour ? $r['rush'] : $r['normal'];
+        $of = getAverageFare($o['fare']);
+        $ot = getMinutes($o['time']);
+
+        $diff = abs($sf - $of);
+
+        // pick the LARGEST meaningful difference
+        if ($diff > $bestDiff) {
+            $bestDiff = $diff;
             $cheaper = $sf < $of;
-            preg_match('/\d+/', $selData['time'], $st); preg_match('/\d+/', $o['time'], $ot);
-            if ($st && $ot) $timeSaved = abs((int)$st[0] - (int)$ot[0]);
-            break;
+            $bestTimeDiff = abs($st - $ot);
         }
     }
+
+    $daily   = $bestDiff * 2;
+    $weekly  = $daily * 5;
+    $monthly = $weekly * 4;
+    $timeSaved = $bestTimeDiff;
 }
 
 function hidden(string $name, string $val): string {
@@ -74,7 +108,7 @@ function hidden(string $name, string $val): string {
 
 
 
-<!-- Debug -->
+
 <div class="debug">
     <form method="GET" style="display:contents;">
         <?= hidden('step', (string)$step) ?>
@@ -93,7 +127,7 @@ function hidden(string $name, string $val): string {
 </div>
 
 <?php if ($step === 1): ?>
-<!-- ── STEP 1 ── -->
+
 <form method="GET">
     <?= hidden('step','2') ?><?= hidden('simulated_hour',$simulatedHour) ?>
     <label>Your Current Location</label>
@@ -112,7 +146,7 @@ function hidden(string $name, string $val): string {
 
 
 <?php elseif ($step === 2): ?>
-<!-- ── STEP 2 ── -->
+
 <form method="GET">
     <?php if (!empty($error)): ?>
     <div class="error-message">
@@ -155,7 +189,7 @@ function hidden(string $name, string $val): string {
 </form>
 
 <?php elseif ($step === 3): ?>
-<!-- ── STEP 3 ── -->
+
 <h2><?= $locKey ?> → <?= $destKey ?></h2>
 
 <form method="GET">
@@ -194,9 +228,9 @@ function hidden(string $name, string $val): string {
 </form>
 
 <?php elseif ($step === 4): ?>
-<!-- ── STEP 4 ── -->
 
-<!-- Photo with pinned labels -->
+
+
 <div class="route-photo">
     <img src="<?= $sel['photo'] ?>" alt="Route photo" loading="lazy"
          onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Colon_Street%2C_Cebu_City.jpg/640px-Colon_Street%2C_Cebu_City.jpg'">
@@ -208,12 +242,12 @@ function hidden(string $name, string $val): string {
     </div>
 </div>
 
-<!-- Insight -->
+
 <div class="alert gold">
     <?= $insightMessages[$selectedOption] ?? 'Good choice.' ?>
 </div>
 
-<!-- Stop strip -->
+
 <div class="stops">
 <?php
     $stops = $sel['stops']; $n = count($stops); $c = $sel['map_color'];
@@ -233,7 +267,8 @@ function hidden(string $name, string $val): string {
 <?php endforeach; ?>
 </div>
 
-<!-- Details -->
+
+
 <div class="box" style="margin-bottom: 12px; padding-bottom: 12px;">
     <h3 style="margin-bottom: 5px; border-bottom: none; padding-bottom: 0;"><?= $sel['title'] ?></h3>
     <div style="font-size: 12px; color: #aaa;">
@@ -245,13 +280,13 @@ function hidden(string $name, string $val): string {
 <div class="metrics-grid">
     <div class="metric-card">
         <div class="m-label">TRAVEL TIME</div>
-        <div class="m-value"><?= (int)filter_var($selData['time'], FILTER_SANITIZE_NUMBER_INT) ?></div>
+        <div class="m-value"><?= str_replace('mins', '', $selData['time']) ?></div>
         <div class="m-sub">minutes</div>
     </div>
     
     <div class="metric-card active-metric">
         <div class="m-label">FARE</div>
-        <div class="m-value fare-text"><?= $selData['fare'] ?></div>
+        <div class="m-value fare-text"><?= htmlspecialchars($selData['fare']) ?></div>
         <div class="m-sub"><?= $isRushHour ? 'rush hour' : 'regular' ?></div>
     </div>
     
@@ -267,12 +302,11 @@ function hidden(string $name, string $val): string {
     </div>
 </div>
 
-<!-- Savings -->
 <?php if ($daily > 0): ?>
 <div class="box green">
     <strong>You're saving both time and money!</strong><br>
     <?php if ($cheaper): ?>
-        Save <strong>₱<?= $daily ?>/day</strong> — ₱<?= $weekly ?>/week · ₱<?= $monthly ?>/month<br>
+        Save <strong>₱<?= number_format($daily) ?>/day</strong> — ₱<?= $weekly ?>/week · ₱<?= $monthly ?>/month<br>
         <span style="font-size:12px;opacity:0.8;">Trade-off: +<?= $timeSaved ?> mins longer per trip.</span>
     <?php else: ?>
         Spending <strong>₱<?= $daily ?>/day more</strong> saves ~<?= $timeSaved ?> mins/trip.<br>

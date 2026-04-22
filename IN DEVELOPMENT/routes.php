@@ -211,13 +211,13 @@ $routeDatabase = [
         'desc'  => 'Through Banilad & Talamban',
 
         'normal' => [
-            'time'=>'30–45 mins',
+            'time'=>'30–45',
             'fare'=>'₱15–₱20',
             'wait'=>'10–20 mins',
             'status'=>'🟢 Usual Flow'
         ],
         'rush' => [
-            'time'=>'60–90 mins',
+            'time'=>'60–90',
             'fare'=>'₱15–₱20',
             'wait'=>'25–45 mins',
             'status'=>'🔴 Bottleneck (Banilad)'
@@ -301,28 +301,7 @@ $routeDatabase = [
 
  
 
-    [
-        'id' => 'opt5',
-        'map_color' => '#6c757d',
-        'title' => 'PUJ (Banilad Shortcut Jeep)',
-        'tag'   => 'Cheapest alternative',
 
-        'normal' => [
-            'time'=>'35–50 mins',
-            'fare'=>'₱15–₱20',
-            'wait'=>'10–25 mins',
-            'status'=>'🟡 Variable'
-        ],
-        'rush' => [
-            'time'=>'60-95 mins',
-            'fare'=>'₱15–₱20',
-            'wait'=>'25–50 mins',
-            'status'=>'🔴 Slow Flow'
-        ],
-
-        'stops' => ['Mandaue','Banilad','IT Park'],
-        'photo' => 'images/image12.jpg',
-    ],
 ],
     'Colon-Talisay' => [
 
