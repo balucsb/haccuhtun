@@ -1,4 +1,5 @@
 <?php
+$step = (int)($_GET['step'] ?? 1);
 if ($step > 2 && $currentLocation === $destination) {
     header("Location: index.php?step=2&current_location=" . urlencode($currentLocation));
     exit;

@@ -14,10 +14,12 @@ body { background: #1a1a1a; color: #fff; margin: 0 auto; padding: 20px; max-widt
     letter-spacing: 2px;
 }
 .app-logo .al { 
-    color: #ffe680; /* The pale yellow from your image */
+    color: #ffe680;
+    font-size: 60px; /* The pale yellow from your image */
 } 
 .app-logo .tipid { 
-    color: #1a66cc; /* The deep blue from your image */
+    color: #1a66cc;
+    font-size: 60px; /* The deep blue from your image */
 }
 
 h2 { font-size: 16px; color: #5cb85c; margin-bottom: 12px; }
@@ -35,7 +37,10 @@ input[type=text], input[type=password] { width:100%; padding:13px; background:#2
 
 /* --- Top Navigation Header --- */
 .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 10px; }
-.top-header .app-logo { margin: 0; } /* Overrides the default margin so it aligns perfectly with the button */
+
+.top-header .app-logo {
+    font-size: 26px; 
+}
 .btn-logout { font-size: 11px; color: #d9534f; border: 1px solid #d9534f; padding: 5px 12px; border-radius: 4px; text-decoration: none; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; transition: 0.2s; }
 .btn-logout:hover { background: #d9534f; color: #fff; }
 
